@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Splines;
+using Unity.Mathematics;
 
 public class FollowerEnemy : Enemy
 {
@@ -13,9 +14,18 @@ public class FollowerEnemy : Enemy
     [SerializeField] private string allyTag = "Ally";
     protected Transform currentTarget;
 
+    [Header("Vfx & Formation")]
+    public float sideOffset = 0f; // Décalage latéral pour éviter que tous les ennemis soient exactement au même endroit sur la spline
+
     [Header("Spline")]
     [SerializeField] private SplineContainer splineContainer;
     private float distanceTraveled = 0f;
+
+    public void SetupEnemy(SplineContainer container, float offset)
+    {
+        splineContainer = container;
+        sideOffset = offset;
+    }
 
     protected override void Move()
     {
@@ -47,8 +57,13 @@ public class FollowerEnemy : Enemy
         // Si on a atteint la fin de la spline, on meurt
         if (t >= 1f) { Die(); return; }
 
-        transform.position = (Vector3)splineContainer.EvaluatePosition(t);
-        transform.rotation = Quaternion.LookRotation((Vector3)splineContainer.EvaluateTangent(t));
+        // Calcul de la position sur la spline avec le décalage latéral
+        Vector3 pos = (Vector3)splineContainer.EvaluatePosition(t);
+        Vector3 tangent = (Vector3)splineContainer.EvaluateTangent(t);
+        Vector3 sideDirection = Vector3.Cross(tangent, Vector3.up).normalized;
+
+        transform.position = pos + (sideDirection * sideOffset);
+        transform.rotation = Quaternion.LookRotation(tangent);
     }
 
     // Détection de perso à attaquer
@@ -92,15 +107,35 @@ public class FollowerEnemy : Enemy
     // Revenir sur la spline
     private void ReturnToSplineLogic()
     {
-        // On calcule la position où il devrait être sur la spline
-        float t = distanceTraveled / splineContainer.CalculateLength();
-        Vector3 targetSplinePos = (Vector3)splineContainer.EvaluatePosition(t);
+        // Trouver le point le plus proche sur la spline par rapport à la position du cube
+        // On doit convertir la position du cube en espace local à la spline
+        float3 localPos = splineContainer.transform.InverseTransformPoint(transform.position);
+        // Cette fonction calcule le point t le plus proche sur la courbe
+        SplineUtility.GetNearestPoint(splineContainer.Spline, localPos, out float3 nearestLocalPos, out float tNearest);
 
-        transform.position = Vector3.MoveTowards(transform.position, targetSplinePos, moveSpeed * Time.deltaTime);
+        // On convertit ce point en position Monde
+        Vector3 posOnSpline = splineContainer.transform.TransformPoint((Vector3)nearestLocalPos);
+        // On calcule la direction perpendiculaire pour garder notre couloir
+        Vector3 tangent = splineContainer.EvaluateTangent(tNearest);
+        Vector3 sideDirection = Vector3.Cross(tangent, Vector3.up).normalized;
 
-        // Si on est assez proche du point sur la spline, on reprend le suivi normal
-        if (Vector3.Distance(transform.position, targetSplinePos) < 0.1f)
+        // Cible de retour = Point sur la spline + le décalage latéral d'origine
+        Vector3 targetPosWithOffset = posOnSpline + (sideDirection * sideOffset);
+
+        transform.position = Vector3.MoveTowards(transform.position, targetPosWithOffset, moveSpeed * Time.deltaTime);
+
+        if (tangent != Vector3.zero)
         {
+            Quaternion targetRotation = Quaternion.LookRotation(tangent);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+        }
+
+        // Une fois arrivé, on synchronise la distance et on reprend le suivi
+        if (Vector3.Distance(transform.position, targetPosWithOffset) < 0.1f)
+        {
+            // On met à jour distanceTraveled pour que le script sache qu'on redémarre à partir de ce nouveau point "t"
+            distanceTraveled = tNearest * splineContainer.CalculateLength();
+            
             currentState = EnemyState.FollowingSpline;
         }
     }
