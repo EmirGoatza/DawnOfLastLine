@@ -4,8 +4,12 @@
 TagManager:
   serializedVersion: 3
   tags:
+<<<<<<< HEAD
   - Ally
   - Enemy
+=======
+  - MainBuilding
+>>>>>>> origin/logique_de_jeu
   layers:
   - Default
   - TransparentFX
