@@ -40,6 +40,12 @@ public class PlayerMover : MonoBehaviour
             if (Keyboard.current.dKey.isPressed) targetH = 1;
             if (Keyboard.current.qKey.isPressed) targetH = -1;
 
+            if(Keyboard.current.pKey.isPressed){
+                GameObject playerObj = GameObject.FindGameObjectWithTag("Enemy");
+                Enemy targetEnemy = playerObj.GetComponent<Enemy>();
+                targetEnemy.TakeDamage(10);
+            }
+    
             CurrentV = Mathf.MoveTowards(CurrentV, targetV, acceleration * Time.deltaTime);
             CurrentH = Mathf.MoveTowards(CurrentH, targetH, acceleration * Time.deltaTime);
         }

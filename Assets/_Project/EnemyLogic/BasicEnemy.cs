@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BasicEnemy : FollowerEnemy
+public class BasicEnemy : Enemy
 {
     [Header("Combat - Basique")]
     [SerializeField] private float attackRange = 2f;
@@ -12,7 +12,7 @@ public class BasicEnemy : FollowerEnemy
         base.Awake(); 
 
         enemyName = "Soldat de base";
-        health = 50f;
+        base.health.MaxHealth = 50f;
         damage = 10;
     }
 
