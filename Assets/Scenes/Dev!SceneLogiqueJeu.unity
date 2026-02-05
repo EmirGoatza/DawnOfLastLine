@@ -1071,6 +1071,8 @@ MonoBehaviour:
   currentWave: 0
   spawnInterval: 2
   enemiesPerWave: 5
+  waveText: {fileID: 199782688}
+  startButton: {fileID: 0}
   enemyPrefab: {fileID: 0}
   spawnPoint: {fileID: 0}
 --- !u!114 &1382439369

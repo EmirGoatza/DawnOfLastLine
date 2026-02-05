@@ -15,6 +15,10 @@ public class WaveManager : MonoBehaviour {
     private int enemiesSpawnedThisWave = 0;
 
 
+    [Header("UI References")]
+    [SerializeField] private TextMeshProUGUI waveText;
+
+
     [Header("Test / Debug")]
     [SerializeField] private GameObject enemyPrefab; 
     [SerializeField] private Transform spawnPoint;
@@ -24,6 +28,7 @@ public class WaveManager : MonoBehaviour {
     }
 
     void Update() {
+        waveText.text = "Manche : " + currentWave;
         if (currentPhase == GamePhase.Attack) {
             if (enemiesSpawnedThisWave >= enemiesPerWave && GetEnemyCount() == 0) {
                 StartPreparationPhase();
