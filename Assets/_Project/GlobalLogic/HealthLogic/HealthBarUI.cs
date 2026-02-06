@@ -8,18 +8,22 @@ public class HealthBarUI : MonoBehaviour
     
     private Health healthComponent;
     private Transform targetTransform;
+    private Transform mainCameraTransform;
 
     void Awake()
     {
-        // On récupère le script Health sur le parent
         healthComponent = GetComponentInParent<Health>();
+
+        if (Camera.main != null)
+        {
+            mainCameraTransform = Camera.main.transform;
+        }
         
         if (healthComponent != null)
         {
             targetTransform = healthComponent.transform;
             healthComponent.OnHealthChanged.AddListener(UpdateSlider);
             
-            // On positionne la barre dès le départ
             PositionAboveParent();
         }
     }
@@ -38,17 +42,24 @@ public class HealthBarUI : MonoBehaviour
         if (targetTransform != null)
         {
             PositionAboveParent();
+            RotateTowardsCamera();
         }
     }
 
     private void PositionAboveParent()
     {
-        // On essaie de trouver le collider pour connaître la hauteur réelle de l'objet
         Collider col = targetTransform.GetComponent<Collider>();
         float yOffset = (col != null) ? col.bounds.size.y : 2f; 
 
-        // On place le Canvas du slider au sommet + l'offset choisi
         transform.position = targetTransform.position + Vector3.up * yOffset + offset;
+    }
+
+    private void RotateTowardsCamera()
+    {
+        if (mainCameraTransform != null)
+        {
+            transform.LookAt(transform.position + mainCameraTransform.forward);
+        }
     }
 
     private void UpdateSlider(float current, float max)
