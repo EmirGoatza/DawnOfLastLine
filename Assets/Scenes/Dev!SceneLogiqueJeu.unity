@@ -939,8 +939,8 @@ GameObject:
   - component: {fileID: 1172747988}
   - component: {fileID: 1172747987}
   - component: {fileID: 1172747986}
-  - component: {fileID: 1172747985}
   - component: {fileID: 1172747990}
+  - component: {fileID: 1172747991}
   m_Layer: 0
   m_Name: DevJoueur
   m_TagString: Player
@@ -948,23 +948,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1172747985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1172747984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e704129a1ce66b429a24406babc1533, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMover
-  moveSpeed: 5
-  runSpeed: 9
-  rotationSpeed: 100
-  acceleration: 5
-  gravity: -9.81
 --- !u!136 &1172747986
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1085,6 +1068,23 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1172747991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172747984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7689f778803ab964b9fd928d3bc045a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharMove
+  moveSpeed: 5
+  runSpeed: 9
+  rotationSpeed: 10
+  acceleration: 10
+  gravity: -9.81
 --- !u!1 &1263700134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,11 +1338,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb7242b999ff7641bcbce4ec2ca5581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  target: {fileID: 1172747989}
+  player: {fileID: 0}
   distance: 6
   height: 2
   sideOffset: 1
-  sensitivity: 0.2
+  mouseSensitivity: 0.2
+  gamepadSensitivity: 150
+  yMinLimit: -20
+  yMaxLimit: 60
+  baseFOV: 60
+  runFOV: 75
+  fovChangeSpeed: 5
 --- !u!1 &1382439367
 GameObject:
   m_ObjectHideFlags: 0
