@@ -75,7 +75,7 @@ public class WaveManager : MonoBehaviour {
             GameObject enemyInstance = Instantiate(enemyPrefab, spawnPoint.position + new Vector3(randomSideOffset, 0, 0), Quaternion.identity);
             enemyInstance.name = "Enemy_Wave" + currentWave + "_" + enemiesSpawnedThisWave;
             Enemy enemyScript = enemyInstance.GetComponent<Enemy>();
-            enemyScript.setContainerSpline(FindObjectOfType<SplineContainer>());
+            enemyScript.setContainerSpline(splineContainer);
         }
     }
 
