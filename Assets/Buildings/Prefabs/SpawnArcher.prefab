@@ -221,6 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2840486712364875821}
   - component: {fileID: 6715086831514710429}
+  - component: {fileID: 5782028241532157583}
   m_Layer: 0
   m_Name: SpawnArcher
   m_TagString: Ally
@@ -265,6 +266,22 @@ MonoBehaviour:
   countdown: 5
   unitPrefab: {fileID: 7928131453571000413, guid: 142345a023e41894eaac458285ab9378, type: 3}
   spawnPoint: {fileID: 7133663127613832839}
+--- !u!114 &5782028241532157583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6823125488924625524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff8fd86b30e97f340b0290db83a14383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHealth: 100
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8845728030477588233
 GameObject:
   m_ObjectHideFlags: 0
