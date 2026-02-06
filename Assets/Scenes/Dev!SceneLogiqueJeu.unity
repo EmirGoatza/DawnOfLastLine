@@ -1338,7 +1338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb7242b999ff7641bcbce4ec2ca5581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  player: {fileID: 0}
+  player: {fileID: 1172747984}
   distance: 6
   height: 2
   sideOffset: 1
