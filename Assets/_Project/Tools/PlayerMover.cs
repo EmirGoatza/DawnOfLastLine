@@ -38,7 +38,7 @@ public class PlayerMover : MonoBehaviour
 
             targetH = 0;
             if (Keyboard.current.dKey.isPressed) targetH = 1;
-            if (Keyboard.current.qKey.isPressed) targetH = -1;
+            if (Keyboard.current.aKey.isPressed) targetH = -1;
 
             if(Keyboard.current.pKey.isPressed){
                 GameObject playerObj = GameObject.FindGameObjectWithTag("Enemy");
