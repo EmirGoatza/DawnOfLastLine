@@ -4,9 +4,9 @@ using UnityEngine.InputSystem;
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
-    public float distance = 2f;
+    public float distance = 6f;
     public float height = 2f;
-    public float sideOffset = 2f;
+    public float sideOffset = 1f;
     public float sensitivity = 0.2f;
 
     private float mouseX;
