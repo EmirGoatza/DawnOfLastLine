@@ -43,3 +43,8 @@ Assets/StreamingAssets/crashlytics-build.properties
 .vscode/
 *.slnx
 
+
+# Dossiers temporaires et préférences utilisateur
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
