@@ -796,9 +796,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31473e1b3c31b9b43bae67881a135f65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainBuilding
---- !u!1 &1172747984 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 175784216881067252, guid: 30f5a5df73722be429a8507bb1f14345, type: 3}
+--- !u!4 &1172747990 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1093960497100260910, guid: 30f5a5df73722be429a8507bb1f14345, type: 3}
   m_PrefabInstance: {fileID: 7117443801750539007}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1263700134
@@ -1054,10 +1054,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb7242b999ff7641bcbce4ec2ca5581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  player: {fileID: 1172747984}
+  target: {fileID: 1172747990}
   distance: 6
   height: 2
   sideOffset: 1
+  damping: 5
   mouseSensitivity: 0.2
   gamepadSensitivity: 150
   yMinLimit: -20
