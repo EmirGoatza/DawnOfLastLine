@@ -715,7 +715,7 @@ MonoBehaviour:
   spawnInterval: 2
   enemiesPerWave: 5
   laneWidth: 2
-  waveText: {fileID: 0}
+  waveText: {fileID: 199782688}
   enemyPrefab: {fileID: 8465884811639949209, guid: 58b4643dd9c5b2c41816770cf0bada3d, type: 3}
   spawnPoint: {fileID: 486569269}
   splineContainer: {fileID: 574030846}
