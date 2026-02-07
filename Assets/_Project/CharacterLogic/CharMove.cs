@@ -14,15 +14,18 @@ public class CharMove : MonoBehaviour
     [Header("State")]
     public bool IsRunning { get; private set; }
 
-    // Variables internes
+    [HideInInspector] public bool canMove = true;
+
+
+
     private CharacterController controller;
     private Transform cam;
     private float verticalVelocity;
     
-    // Pour lisser le mouvement
+    // lisser le mouvement
     private Vector2 currentInputVector;
     private Vector2 smoothInputVelocity; 
-    private float smoothInputSpeed = 0.1f; // Temps de lissage
+    private float smoothInputSpeed = 0.1f;
 
     void Start()
     {
@@ -36,8 +39,15 @@ public class CharMove : MonoBehaviour
 
     void Update()
     {
-        HandleInput();
         ApplyGravity();
+
+        if (!canMove) 
+        {
+            controller.Move(new Vector3(0, verticalVelocity, 0) * Time.deltaTime);
+            return; 
+        }
+
+        HandleInput();
         ApplyMovement();
     }
 
