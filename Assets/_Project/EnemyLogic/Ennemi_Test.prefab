@@ -130,11 +130,11 @@ MonoBehaviour:
   enemyName: 
   moveSpeed: 10
   currentState: 0
-  detectionRange: 10
+  detectionRange: 20
   allyTag: Ally
   sideOffset: 0
   splineContainer: {fileID: 0}
-  attackRange: 2
+  attackRange: 5
   attackCooldown: 1.5
   damage: 10
 --- !u!114 &-2109205372469509961
