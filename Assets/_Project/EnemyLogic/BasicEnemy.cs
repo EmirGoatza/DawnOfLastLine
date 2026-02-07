@@ -5,6 +5,7 @@ public class BasicEnemy : Enemy
     [Header("Combat - Basique")]
     [SerializeField] private float attackRange = 2f;
     [SerializeField] private float attackCooldown = 1.5f;
+    [SerializeField] protected int damage = 20;
     private float nextAttackTime;
 
     protected override void Awake()
@@ -13,19 +14,25 @@ public class BasicEnemy : Enemy
 
         enemyName = "Soldat de base";
         base.health.MaxHealth = 50f;
-        damage = 10;
     }
 
     protected override void Update()
     {
         base.Update();
 
-        // Logique d'attaque contre la cible
         if (currentTarget != null)
         {
-            float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
-            
-            if (distanceToTarget <= attackRange)
+            Vector3 targetPoint = currentTarget.position;
+            Collider targetCollider = currentTarget.GetComponent<Collider>();
+
+            if (targetCollider != null)
+            {
+                targetPoint = targetCollider.ClosestPoint(transform.position);
+            }
+
+            float distanceToTargetSurface = Vector3.Distance(transform.position, targetPoint);
+
+            if (distanceToTargetSurface <= attackRange)
             {
                 TryAttack();
             }

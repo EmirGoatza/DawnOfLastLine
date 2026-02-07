@@ -8,7 +8,6 @@ public abstract class Enemy : MonoBehaviour
     [Header("Statistiques de Base")]
     [SerializeField] protected string enemyName;
     [SerializeField] protected float moveSpeed;
-    [SerializeField] protected int damage;
 
 
     public enum EnemyState { FollowingSpline, ChasingTarget, ReturningToSpline }
@@ -127,7 +126,18 @@ public abstract class Enemy : MonoBehaviour
         GameObject[] allies = GameObject.FindGameObjectsWithTag(allyTag);
         foreach (GameObject ally in allies)
         {
-            if (Vector3.Distance(transform.position, ally.transform.position) < detectionRange)
+            // On recup le collider pour calculer la distance à la surface, pas au centre
+            Collider allyCollider = ally.GetComponent<Collider>();
+            Vector3 targetPoint = ally.transform.position;
+
+            if (allyCollider != null)
+            {
+                // On trouve le point le plus proche sur la surface du bâtiment
+                targetPoint = allyCollider.ClosestPoint(transform.position);
+            }
+
+            // On calcule la distance par rapport à la surface
+            if (Vector3.Distance(transform.position, targetPoint) < detectionRange)
             {
                 currentTarget = ally.transform;
                 currentState = EnemyState.ChasingTarget;
@@ -141,10 +151,22 @@ public abstract class Enemy : MonoBehaviour
     {
         if (currentTarget == null) { currentState = EnemyState.ReturningToSpline; return; }
 
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, moveSpeed * Time.deltaTime);
+        Vector3 destination = currentTarget.position;
+        Collider targetCollider = currentTarget.GetComponent<Collider>();
+
+        if (targetCollider != null)
+        {
+            // On vise le point le plus proche sur le bord
+            destination = targetCollider.ClosestPoint(transform.position);
+        }
+
+        // Déplacement vers le bord
+        transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
         
-        // Si la cible est trop loin ou si l'action est finie, on retourne à la spline
-        if (Vector3.Distance(transform.position, currentTarget.position) > detectionRange * 1.5f)
+        // Calcul de la distance à la surface pour savoir s'il faut abandonner ou attaquer
+        float distanceToSurface = Vector3.Distance(transform.position, destination);
+
+        if (distanceToSurface > detectionRange * 1.5f)
         {
             currentState = EnemyState.ReturningToSpline;
         }
