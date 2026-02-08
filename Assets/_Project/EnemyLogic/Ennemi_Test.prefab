@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicEnemy
   enemyName: 
-  moveSpeed: 10
+  moveSpeed: 40
   currentState: 0
   detectionRange: 20
   allyTag: Ally
