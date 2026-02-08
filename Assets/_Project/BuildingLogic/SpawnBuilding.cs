@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class SpawnBuilding : Building
 {
+    
+    [Header("Ally Unit")]
     public GameObject unitPrefab;
     public Transform spawnPoint;
 

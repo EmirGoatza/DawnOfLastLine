@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class Building : MonoBehaviour
 {
+    [Header("Upgrade Models")]
     public GameObject level1model;
     public GameObject level2model;
     public GameObject level3model;
@@ -14,6 +15,7 @@ public abstract class Building : MonoBehaviour
         get => currentLevel;
     }
 
+    [Header("Values")]
     public float countdown;
 
     private float currentCountdown;
