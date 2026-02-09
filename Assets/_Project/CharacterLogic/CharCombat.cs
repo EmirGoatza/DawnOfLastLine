@@ -9,7 +9,7 @@ public class PlayerCombat : MonoBehaviour
     public float attackCooldown = 0.5f;
 
     [Header("Hitbox")]
-    public Vector3 hitboxSize = new Vector3(4f, 4f, 6f);
+    public Vector3 hitboxSize = new Vector3(8f, 4f, 6f);
     public float hitboxDistance = 1.5f;
     public float impactTime = 0.2f;
     public LayerMask enemyLayers;
