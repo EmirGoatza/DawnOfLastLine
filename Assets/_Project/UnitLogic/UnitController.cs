@@ -9,7 +9,6 @@ public class UnitController : MonoBehaviour
     protected enum State { Idle, Wander, Chase, Attack }
 
     [Header("Stats")]
-    public float health = 100f;
     public float wanderRange = 10f;
     public float detectionRange = 15f;
     public float attackRange = 2f;  // Melee by default
@@ -19,7 +18,7 @@ public class UnitController : MonoBehaviour
     public Animator animator;
     public string enemyTag = "Enemy";
     [HideInInspector] public Transform targetEnemy;
-    
+    protected Health health;
     
     protected NavMeshAgent agent;
     protected State currentState = State.Idle;
@@ -29,6 +28,12 @@ public class UnitController : MonoBehaviour
     protected bool wanderPointSet = false;
     protected bool canAttack = true;
 
+    
+    protected virtual void Awake()
+    {
+        health = GetComponent<Health>();
+    }
+    
     protected virtual void Start()
     {
         if (!agent) agent = GetComponent<NavMeshAgent>();
@@ -79,6 +84,16 @@ public class UnitController : MonoBehaviour
         {
             currentState = State.Idle;
         }
+    }
+    
+    void OnEnable()
+    {
+        if (health != null) health.OnDeath.AddListener(Die);
+    }
+
+    void OnDisable()
+    {
+        if (health != null) health.OnDeath.RemoveListener(Die);
     }
 
     protected virtual void Idle()
@@ -140,6 +155,11 @@ public class UnitController : MonoBehaviour
 
     protected void ResetAttack() => canAttack = true;
 
+    protected virtual void Die()
+    {
+        Destroy(gameObject);
+    }
+    
     protected void UpdateAnimatorParameters()
     {
         Vector3 velocity = agent.velocity;
