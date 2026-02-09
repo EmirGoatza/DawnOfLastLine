@@ -84,6 +84,7 @@ public abstract class Enemy : MonoBehaviour
 
             case EnemyState.ChasingTarget:
                 MoveTowardsTarget();
+                CheckForTargets();
                 break;
 
             case EnemyState.ReturningToSpline:
