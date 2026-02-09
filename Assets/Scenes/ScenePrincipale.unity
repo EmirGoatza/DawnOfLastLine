@@ -1058,7 +1058,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   damageAmount: 20
   attackCooldown: 0.5
-  hitboxSize: {x: 4, y: 4, z: 6}
+  hitboxSize: {x: 8, y: 4, z: 6}
   hitboxDistance: 3
   impactTime: 0.2
   enemyLayers:
