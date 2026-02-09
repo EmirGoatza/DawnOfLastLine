@@ -29331,6 +29331,7 @@ GameObject:
   - component: {fileID: 6389406066330802588}
   - component: {fileID: 6389406066330802590}
   - component: {fileID: 6389406066330802591}
+  - component: {fileID: 7092066656064221091}
   m_Layer: 0
   m_Name: basicslash
   m_TagString: Untagged
@@ -34157,3 +34158,16 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &7092066656064221091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389406066330802589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb68ae657046e094989fc7dc4d5d61e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleStartAt
+  startTime: 0.15
