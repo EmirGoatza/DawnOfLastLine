@@ -17,11 +17,13 @@ public class UnitController : MonoBehaviour
 
     [Header("References")]
     public Animator animator;
-    public NavMeshAgent agent;
     public string enemyTag = "Enemy";
-
+    [HideInInspector] public Transform targetEnemy;
+    
+    
+    protected NavMeshAgent agent;
     protected State currentState = State.Idle;
-    protected Transform targetEnemy;
+
     protected Vector3 spawnPoint;
     protected Vector3 wanderPoint;
     protected bool wanderPointSet = false;

@@ -65,13 +65,6 @@ public abstract class Building : MonoBehaviour
         {
             Trigger();
         }
-
-        if (Keyboard.current.cKey.isPressed && upgradeCooldown <= 0f) 
-        {
-            Upgrade();
-            upgradeCooldown = 0.3f;
-            Debug.Log("upgrade");
-        }
         
         
         if (currentCountdown <= 0f && trigger)
