@@ -1086,6 +1086,7 @@ MonoBehaviour:
   distance: 10
   unitPrefab: {fileID: 7928131453571000413, guid: 142345a023e41894eaac458285ab9378, type: 3}
   spawnPoint: {fileID: 165832155993512822}
+  limit: 2
 --- !u!1 &8912490017854022604
 GameObject:
   m_ObjectHideFlags: 0

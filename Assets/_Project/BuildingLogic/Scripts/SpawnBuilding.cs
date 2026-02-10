@@ -6,12 +6,28 @@ public class SpawnBuilding : Building
     [Header("Ally Unit")]
     public GameObject unitPrefab;
     public Transform spawnPoint;
-
+    public int limit;
+    
     protected override void AttackorSpawn()
     {
-        if (unitPrefab != null && spawnPoint != null)
+        if (unitPrefab != null && spawnPoint != null )
         {
-            Instantiate(unitPrefab, spawnPoint.position, spawnPoint.rotation);
+            if (limit > 0)
+            {
+                GameObject unit = Instantiate(unitPrefab, spawnPoint.position, spawnPoint.rotation);
+
+                UnitController controller = unit.GetComponent<UnitController>();
+                if (controller != null)
+                    controller.spawn = this.gameObject;
+
+                limit--;
+            }
+            else
+            {
+                {
+                    Debug.Log("Trop d'unités sur site !");
+                }
+            }
         }
     }
 

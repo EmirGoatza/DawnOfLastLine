@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
@@ -17,9 +19,7 @@ public abstract class Building : MonoBehaviour
 
     [Header("Values")]
     public float countdown;
-
     private float currentCountdown;
-
     private float upgradeCooldown;
     private bool trigger = false;
     
@@ -29,6 +29,9 @@ public abstract class Building : MonoBehaviour
     public Transform playerTransform;
     public bool actOnTimer;
     public float distance;
+
+    private static List<Building> buildings = new List<Building>();
+    
 
     public void Trigger()
     {
@@ -52,6 +55,11 @@ public abstract class Building : MonoBehaviour
             if (player != null)
                 playerTransform = player.transform;
         }
+    }
+
+    private void OnEnable()
+    {
+        buildings.Add(this);
     }
 
     void Start()
@@ -84,16 +92,35 @@ public abstract class Building : MonoBehaviour
         }
         else
         {
-            if (Keyboard.current.xKey.isPressed && Vector3.Distance(playerTransform.position, transform.position) <= distance)
+            if (buildings == null || buildings.Count == 0) return;
+
+            // Cherche le bâtiment le plus proche
+            Building nearest = null;
+            float minDistSqr = float.MaxValue;
+            Vector3 playerPos = playerTransform.position;
+
+            foreach (var b in buildings)
+            {
+                float dSqr = (b.transform.position - playerPos).sqrMagnitude;
+                if (dSqr < minDistSqr)
+                {
+                    minDistSqr = dSqr;
+                    nearest = b;
+                }
+            }
+
+            // Si c'est ce bâtiment-ci le plus proche et que le joueur est à portée
+            if (nearest == this && Keyboard.current.xKey.isPressed && minDistSqr <= distance * distance)
             {
                 Trigger();
             }
-        
+
             if (currentCountdown <= 0f && trigger)
             {
                 Execute();
             }
         }
+
 
     }
     
@@ -126,6 +153,11 @@ public abstract class Building : MonoBehaviour
         level3model.SetActive(currentLevel == 3);
     
         Debug.Log($"Level {currentLevel} - L1:{level1model.activeSelf}, L2:{level2model.activeSelf}, L3:{level3model.activeSelf}");
+    }
+    
+    private void OnDisable()
+    {
+        buildings.Remove(this);
     }
     
     protected abstract void OnUpgrade();
