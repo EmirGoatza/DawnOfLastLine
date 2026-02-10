@@ -23,7 +23,7 @@ public class UnitController : MonoBehaviour
     protected NavMeshAgent agent;
     protected State currentState = State.Idle;
 
-    protected Vector3 spawnPoint;
+    [HideInInspector] public GameObject spawn;
     protected Vector3 wanderPoint;
     protected bool wanderPointSet = false;
     protected bool canAttack = true;
@@ -39,7 +39,6 @@ public class UnitController : MonoBehaviour
         if (!agent) agent = GetComponent<NavMeshAgent>();
         if (!animator) animator = GetComponent<Animator>();
 
-        spawnPoint = transform.position;
     }
 
     protected virtual void Update()
@@ -118,7 +117,7 @@ public class UnitController : MonoBehaviour
     {
         float randomX = Random.Range(-wanderRange, wanderRange);
         float randomZ = Random.Range(-wanderRange, wanderRange);
-        Vector3 randomPoint = spawnPoint + new Vector3(randomX, 0, randomZ);
+        Vector3 randomPoint = spawn.transform.position + new Vector3(randomX, 0, randomZ);
 
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomPoint, out hit, 2f, NavMesh.AllAreas))
@@ -157,6 +156,11 @@ public class UnitController : MonoBehaviour
 
     protected virtual void Die()
     {
+        SpawnBuilding sb = spawn.GetComponent<SpawnBuilding>();
+
+        if (sb != null)
+            sb.limit++;
+        
         Destroy(gameObject);
     }
     
