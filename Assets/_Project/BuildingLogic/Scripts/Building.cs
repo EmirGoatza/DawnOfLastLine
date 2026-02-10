@@ -25,6 +25,11 @@ public abstract class Building : MonoBehaviour
     
     private float lastCountdown = 0f;
 
+    [Header("Building Behavior")]
+    public Transform playerTransform;
+    public bool actOnTimer;
+    public float distance;
+
     public void Trigger()
     {
         if (currentCountdown <= 0f)
@@ -39,10 +44,19 @@ public abstract class Building : MonoBehaviour
         }
     }
 
-    
+    void Awake()
+    {
+        if (playerTransform == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+                playerTransform = player.transform;
+        }
+    }
+
     void Start()
     {
-        currentCountdown = countdown;
+        currentCountdown = 0.0f;
         upgradeCooldown = 0.0f;
         upgradeVisual();
     }
@@ -61,16 +75,26 @@ public abstract class Building : MonoBehaviour
             lastCountdown = currentCountdown;
         }
 
-        if (Keyboard.current.xKey.isPressed)
+        if (actOnTimer)
         {
-            Trigger();
+            if (currentCountdown <= 0f )
+            {
+                Execute();
+            }
         }
-        
-        
-        if (currentCountdown <= 0f && trigger)
+        else
         {
-            Execute();
+            if (Keyboard.current.xKey.isPressed && Vector3.Distance(playerTransform.position, transform.position) <= distance)
+            {
+                Trigger();
+            }
+        
+            if (currentCountdown <= 0f && trigger)
+            {
+                Execute();
+            }
         }
+
     }
     
     void Execute()

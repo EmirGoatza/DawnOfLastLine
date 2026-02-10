@@ -1081,6 +1081,9 @@ MonoBehaviour:
   level2model: {fileID: 5823771145333282374}
   level3model: {fileID: 6058527030581125344}
   countdown: 5
+  playerTransform: {fileID: 0}
+  actOnTimer: 0
+  distance: 10
   unitPrefab: {fileID: 7928131453571000413, guid: 142345a023e41894eaac458285ab9378, type: 3}
   spawnPoint: {fileID: 165832155993512822}
 --- !u!1 &8912490017854022604
