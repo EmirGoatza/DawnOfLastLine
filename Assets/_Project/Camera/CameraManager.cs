@@ -39,22 +39,18 @@ public class CameraManager : MonoBehaviour
         Camera toCam = to.GetComponent<Camera>();
         Camera transCam = transitionCamera.GetComponent<Camera>();
 
-        // 1. Préparation de la cible
         if (to == mainCamera)
         {
             to.SetActive(true);
             yield return new WaitForEndOfFrame();
-            // On récupère le FOV cible APRÈS la mise à jour du script de suivi
             to.SetActive(false);
         }
 
-        // 2. ON FIXE LES VALEURS CIBLES ICI
         // On enregistre la position, rotation et FOV exacts à atteindre
         Vector3 targetPos = to.transform.position;
         Quaternion targetRot = to.transform.rotation;
-        float targetFOV = toCam.fieldOfView; // Valeur figée pour la transition
+        float targetFOV = toCam.fieldOfView;
 
-        // 3. Initialisation départ
         transitionCamera.transform.position = from.transform.position;
         transitionCamera.transform.rotation = from.transform.rotation;
         float startFOV = fromCam.fieldOfView;
@@ -73,7 +69,6 @@ public class CameraManager : MonoBehaviour
             float t = Mathf.Clamp01(elapsed / transitionDuration);
             float curve = t * t * (3f - 2f * t);
 
-            // On utilise les variables "target" fixées plus haut
             transitionCamera.transform.position = Vector3.Lerp(startPos, targetPos, curve);
             transitionCamera.transform.rotation = Quaternion.Slerp(startRot, targetRot, curve);
             transCam.fieldOfView = Mathf.Lerp(startFOV, targetFOV, curve);
@@ -84,7 +79,6 @@ public class CameraManager : MonoBehaviour
         if (activateFinalAtEnd)
         {
             to.SetActive(true);
-            // On force le FOV final sur la caméra de destination pour éviter tout micro-saut
             toCam.fieldOfView = targetFOV;
             transitionCamera.SetActive(false);
         }
