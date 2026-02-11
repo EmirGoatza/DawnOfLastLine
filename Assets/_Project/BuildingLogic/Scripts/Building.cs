@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.Splines;
+using Unity.Mathematics;
 
 public abstract class Building : MonoBehaviour
 {
@@ -56,6 +57,38 @@ public abstract class Building : MonoBehaviour
             if (player != null)
                 playerTransform = player.transform;
         }
+        
+        if (spline == null)
+        {
+            SplineContainer[] splines = FindObjectsOfType<SplineContainer>();
+
+            float closestDistance = float.MaxValue;
+            SplineContainer closestSpline = null;
+
+            foreach (var s in splines)
+            {
+                float3 nearestPoint;
+                float t;
+
+                SplineUtility.GetNearestPoint(
+                    s.Spline,
+                    transform.position,
+                    out nearestPoint,
+                    out t
+                );
+
+                float distance = Vector3.Distance(transform.position, nearestPoint);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestSpline = s;
+                }
+            }
+
+            spline = closestSpline;
+        }
+
     }
 
     private void OnEnable()
