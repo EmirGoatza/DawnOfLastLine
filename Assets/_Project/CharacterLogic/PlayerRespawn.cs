@@ -90,11 +90,15 @@ public class PlayerRespawn : MonoBehaviour
         foreach (var c in colliders)
             c.enabled = true;
 
+        if (CameraManager.Instance != null)
+        {
+            // On attend que la transition de retour soit finie pour rendre le contrôle
+            yield return CameraManager.Instance.ShowMainCamera();
+        }
+
         // Réactive contrôles
         if (charMove != null) charMove.canMove = true;
         if (combat != null) combat.enabled = true;
-
-        if (CameraManager.Instance != null) CameraManager.Instance.ShowMainCamera();
     }
 
 }
