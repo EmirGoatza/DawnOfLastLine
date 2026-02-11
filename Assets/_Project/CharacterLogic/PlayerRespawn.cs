@@ -12,11 +12,22 @@ public class PlayerRespawn : MonoBehaviour
     private CharMove charMove;
     private PlayerCombat combat;
 
+    private Renderer[] renderers;
+    private Collider[] colliders;
+
+    private CharacterController characterController;
+
     void Awake()
     {
         health = GetComponent<Health>();
         charMove = GetComponent<CharMove>();
         combat = GetComponent<PlayerCombat>();
+
+        renderers = GetComponentsInChildren<Renderer>();
+        colliders = GetComponentsInChildren<Collider>();
+
+        // On exclut le CharacterController
+        colliders = System.Array.FindAll(colliders, c => !(c is CharacterController));
     }
 
     void OnEnable()
@@ -36,9 +47,21 @@ public class PlayerRespawn : MonoBehaviour
 
     IEnumerator RespawnCoroutine()
     {
-        // Désactive les contrôles
+        // Désactive contrôles
         if (charMove != null) charMove.canMove = false;
         if (combat != null) combat.enabled = false;
+        
+        // Déplace le joueur loin de la scène
+        transform.position = new Vector3(-100, -100, -100);
+
+
+        // Désactive visuel
+        foreach (var r in renderers)
+            r.enabled = false;
+
+        // Désactive collisions
+        foreach (var c in colliders)
+            c.enabled = false;
 
         yield return new WaitForSeconds(respawnDelay);
 
@@ -47,10 +70,19 @@ public class PlayerRespawn : MonoBehaviour
             transform.position = respawnPoint.position;
 
         // Reset HP
-        health.MaxHealth = health.MaxHealth; // remet currentHealth à max
+        health.ResetHealth();
+
+        // Réactive visuel
+        foreach (var r in renderers)
+            r.enabled = true;
+
+        // Réactive collisions
+        foreach (var c in colliders)
+            c.enabled = true;
 
         // Réactive contrôles
         if (charMove != null) charMove.canMove = true;
         if (combat != null) combat.enabled = true;
     }
+
 }

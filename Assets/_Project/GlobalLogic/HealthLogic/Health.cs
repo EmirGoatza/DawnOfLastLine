@@ -18,6 +18,7 @@ public class Health : MonoBehaviour
             currentHealth = maxHealth;
         }
     }
+
     public float CurrentHealth
     {
         get => currentHealth;
@@ -27,6 +28,8 @@ public class Health : MonoBehaviour
             OnHealthChanged?.Invoke(currentHealth, maxHealth);
         }
     }
+
+    public bool IsDead { get; private set; } = false;
 
     void Awake()
     {
@@ -40,14 +43,26 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        if (IsDead) return; 
+
         CurrentHealth -= amount;
         Debug.Log($"{gameObject.name} a maintenant {currentHealth} HP.");
 
         if (currentHealth <= 0)
         {
+            currentHealth = 0;
+            IsDead = true;
+            
             Debug.Log($"{gameObject.name} meurt !");
             // On prévient tous ceux qui écoutent
             OnDeath?.Invoke();
         }
     }
+
+    public void ResetHealth()
+    {
+        IsDead = false;
+        CurrentHealth = maxHealth;
+    }
+
 }

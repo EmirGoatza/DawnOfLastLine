@@ -48,7 +48,7 @@ public class BasicEnemy : Enemy
         // On essaie de récupérer le script Health sur la cible actuelle
         Health targetHealth = currentTarget.GetComponent<Health>();
 
-        if (targetHealth != null)
+        if (targetHealth != null && !targetHealth.IsDead)
         {
             // On inflige les dégâts
             targetHealth.TakeDamage(damage);

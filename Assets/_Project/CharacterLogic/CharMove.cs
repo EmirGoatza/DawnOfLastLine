@@ -27,9 +27,13 @@ public class CharMove : MonoBehaviour
     private Vector2 smoothInputVelocity; 
     private float smoothInputSpeed = 0.1f;
 
+    private Health health;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        health = GetComponent<Health>();
+
         if (Camera.main != null) cam = Camera.main.transform;
         
         // Cacher le curseur
@@ -39,9 +43,16 @@ public class CharMove : MonoBehaviour
 
     void Update()
     {
+        if(health.IsDead)
+        {
+            Debug.Log("Le joueur est mort, mouvement désactivé.");
+            return;
+        }
+        
         ApplyGravity();
 
-        if (!canMove) 
+
+        if (!canMove || (health != null && health.IsDead))
         {
             controller.Move(new Vector3(0, verticalVelocity, 0) * Time.deltaTime);
             return; 
