@@ -31,13 +31,16 @@ public abstract class Enemy : MonoBehaviour
     protected Health health;
 
     protected Transform player;
+    protected Transform mainBuilding;
 
     protected virtual void Awake()
     {
         health = GetComponent<Health>();
         // On trouve le joueur automatiquement au démarrage
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        GameObject mainBuildingObj = GameObject.FindGameObjectWithTag("MainBuilding");
         if (playerObj != null) player = playerObj.transform;
+        if (mainBuildingObj != null) mainBuilding = mainBuildingObj.transform;
     }
 
     public void setContainerSpline(SplineContainer container)
@@ -116,12 +119,18 @@ public abstract class Enemy : MonoBehaviour
     // Détection de perso à attaquer
     private void CheckForTargets()
     {
+        Transform bestTarget = null;
+        float closestDistance = detectionRange;
+
         // On cherche d'abord si le joueur est à portée
-        if (player != null && Vector3.Distance(transform.position, player.position) < detectionRange)
+        if (player != null)
         {
-            currentTarget = player;
-            currentState = EnemyState.ChasingTarget;
-            return;
+            float distToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distToPlayer < closestDistance)
+            {
+                bestTarget = player;
+                closestDistance = distToPlayer;
+            }
         }
 
         // On cherche l'objet le plus proche avec le tag Ally
@@ -130,21 +139,36 @@ public abstract class Enemy : MonoBehaviour
         {
             // On recup le collider pour calculer la distance à la surface, pas au centre
             Collider allyCollider = ally.GetComponent<Collider>();
-            Vector3 targetPoint = ally.transform.position;
-
-            if (allyCollider != null)
-            {
-                // On trouve le point le plus proche sur la surface du bâtiment
-                targetPoint = allyCollider.ClosestPoint(transform.position);
-            }
+            Vector3 targetPoint = (allyCollider != null) 
+            ? allyCollider.ClosestPoint(transform.position) 
+            : ally.transform.position;
 
             // On calcule la distance par rapport à la surface
-            if (Vector3.Distance(transform.position, targetPoint) < detectionRange)
+            float distToAlly = Vector3.Distance(transform.position, targetPoint);
+
+            // Si cet allié est à portée et plus proche que ce qu'on a trouvé avant
+            if (distToAlly < closestDistance)
             {
-                currentTarget = ally.transform;
-                currentState = EnemyState.ChasingTarget;
-                break;
+                closestDistance = distToAlly;
+                bestTarget = ally.transform;
             }
+        }
+
+        // On ne le check que si on n'a pas trouvé de cible plus urgente (joueur ou allié)
+        if (bestTarget == null && mainBuilding != null)
+        {
+            float distToBuilding = Vector3.Distance(transform.position, mainBuilding.position);
+            if (distToBuilding < detectionRange)
+            {
+                bestTarget = mainBuilding;
+            }
+        }
+
+        // Application de la cible finale
+        if (bestTarget != null)
+        {
+            currentTarget = bestTarget;
+            currentState = EnemyState.ChasingTarget;
         }
     }
 

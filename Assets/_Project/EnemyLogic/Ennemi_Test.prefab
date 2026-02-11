@@ -135,7 +135,7 @@ MonoBehaviour:
   allyTag: Ally
   sideOffset: 0
   splineContainer: {fileID: 0}
-  attackRange: 5
+  attackRange: 2
   attackCooldown: 1.5
   damage: 10
 --- !u!114 &-2109205372469509961
@@ -182,7 +182,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!1001 &6474662245402988166
 PrefabInstance:
