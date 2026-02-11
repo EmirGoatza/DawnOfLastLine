@@ -17,6 +17,7 @@ public abstract class Enemy : MonoBehaviour
 
     [Header("Détection")]
     [SerializeField] private float detectionRange = 5f;
+    protected virtual float StoppingDistance => 0f;
     [SerializeField] private string allyTag = "Ally";
     protected Transform currentTarget;
 
@@ -83,6 +84,7 @@ public abstract class Enemy : MonoBehaviour
 
             case EnemyState.ChasingTarget:
                 MoveTowardsTarget();
+                CheckForTargets();
                 break;
 
             case EnemyState.ReturningToSpline:
@@ -159,12 +161,15 @@ public abstract class Enemy : MonoBehaviour
             // On vise le point le plus proche sur le bord
             destination = targetCollider.ClosestPoint(transform.position);
         }
-
-        // Déplacement vers le bord
-        transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
         
         // Calcul de la distance à la surface pour savoir s'il faut abandonner ou attaquer
         float distanceToSurface = Vector3.Distance(transform.position, destination);
+
+        // On ne bouge que si on est plus loin que la distance d'arrêt
+        if (distanceToSurface > StoppingDistance)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
+        }
 
         if (distanceToSurface > detectionRange * 1.5f)
         {

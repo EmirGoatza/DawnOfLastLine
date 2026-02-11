@@ -8,6 +8,8 @@ public class BasicEnemy : Enemy
     [SerializeField] protected int damage = 20;
     private float nextAttackTime;
 
+    protected override float StoppingDistance => attackRange - 0.2f;
+
     protected override void Awake()
     {
         base.Awake(); 

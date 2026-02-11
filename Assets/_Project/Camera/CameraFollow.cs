@@ -29,6 +29,8 @@ public class CameraFollow : MonoBehaviour
     
     private CharMove charMove;
     private EnemyTarget enemyTarget;
+    
+    private bool wasLocked = false; 
 
     void Start()
     {
@@ -56,6 +58,8 @@ public class CameraFollow : MonoBehaviour
 
         bool isLockedOn = (enemyTarget != null && enemyTarget.currentTarget != null);
 
+        wasLocked = isLockedOn;
+
         if (isLockedOn)
         {
             HandleLockOnMovement();
@@ -71,7 +75,6 @@ public class CameraFollow : MonoBehaviour
 
     void HandleManualInput()
     {
-        // Souris
         if (Mouse.current != null)
         {
             Vector2 mouseDelta = Mouse.current.delta.ReadValue();
@@ -79,7 +82,6 @@ public class CameraFollow : MonoBehaviour
             mouseY -= mouseDelta.y * mouseSensitivity;
         }
 
-        // Manette
         if (Gamepad.current != null)
         {
             Vector2 stickInput = Gamepad.current.rightStick.ReadValue();
@@ -96,10 +98,9 @@ public class CameraFollow : MonoBehaviour
     void HandleLockOnMovement()
     {
         Transform enemy = enemyTarget.currentTarget;
-
         if (enemy == null) return;
 
-        Vector3 dirToEnemy = enemy.position - target.position;
+        Vector3 dirToEnemy = (enemy.position - target.position).normalized;
         
         if (dirToEnemy != Vector3.zero)
         {
@@ -107,8 +108,6 @@ public class CameraFollow : MonoBehaviour
             Vector3 lookAngles = lookRotation.eulerAngles;
 
             mouseX = Mathf.LerpAngle(mouseX, lookAngles.y, damping * Time.deltaTime);
-            
-            mouseY = Mathf.LerpAngle(mouseY, 15f, damping * Time.deltaTime);
         }
     }
 
@@ -121,21 +120,13 @@ public class CameraFollow : MonoBehaviour
         
         Vector3 lookTarget = target.position + (rotation * new Vector3(sideOffset, 1.5f, 0));
         
-        if (enemyTarget != null && enemyTarget.currentTarget != null)
-        {
-             Vector3 enemyPos = enemyTarget.currentTarget.position;
-             lookTarget = Vector3.Lerp(lookTarget, enemyPos, 0.3f); 
-        }
-
         transform.LookAt(lookTarget);
     }
 
     void HandleFOV()
     {
         if (cam == null || charMove == null) return;
-        
         float targetFOV = charMove.IsRunning ? runFOV : baseFOV;
-    
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, fovChangeSpeed * Time.deltaTime);
     }
 }

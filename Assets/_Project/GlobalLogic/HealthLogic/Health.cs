@@ -24,7 +24,6 @@ public class Health : MonoBehaviour
         private set
         {
             currentHealth = value;
-            // On prévient automatiquement le slider
             OnHealthChanged?.Invoke(currentHealth, maxHealth);
         }
     }
@@ -32,6 +31,11 @@ public class Health : MonoBehaviour
     void Awake()
     {
         currentHealth = maxHealth;
+
+        if (GetComponent<HealthDamagePopup>() == null)
+        {
+            gameObject.AddComponent<HealthDamagePopup>();
+        }
     }
 
     public void TakeDamage(float amount)

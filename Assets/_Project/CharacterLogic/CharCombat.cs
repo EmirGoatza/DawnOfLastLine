@@ -9,7 +9,7 @@ public class PlayerCombat : MonoBehaviour
     public float attackCooldown = 0.5f;
 
     [Header("Hitbox")]
-    public Vector3 hitboxSize = new Vector3(2f, 2f, 2f);
+    public Vector3 hitboxSize = new Vector3(8f, 4f, 6f);
     public float hitboxDistance = 1.5f;
     public float impactTime = 0.2f;
     public LayerMask enemyLayers;
@@ -94,10 +94,18 @@ public class PlayerCombat : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (!showHitboxDebug) return;
         Gizmos.color = Color.red;
-        Vector3 center = transform.position + (transform.forward * hitboxDistance);
+
+        Vector3 center = transform.position + transform.forward * hitboxDistance;
         Gizmos.matrix = Matrix4x4.TRS(center, transform.rotation, hitboxSize);
         Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
+
+        // Ligne de range (du joueur jusqu'au centre)
+        Gizmos.matrix = Matrix4x4.identity;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, center);
+
+        // Point centre hitbox
+        Gizmos.DrawSphere(center, 0.05f);
     }
 }

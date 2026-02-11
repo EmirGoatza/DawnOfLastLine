@@ -39,10 +39,10 @@ public class EnemyTarget : MonoBehaviour
             else TryLock();
         }
 
-        if (currentTarget != null && (!currentTarget.gameObject.activeInHierarchy))
-        {
-            Unlock();
-        }
+        if (currentTarget != null && (!currentTarget.gameObject.activeInHierarchy || currentTarget == null))
+            {
+                Unlock();
+            }
         
         if (currentTarget != null)
         {
