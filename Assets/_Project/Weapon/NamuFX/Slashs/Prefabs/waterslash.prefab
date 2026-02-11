@@ -4924,6 +4924,7 @@ GameObject:
   - component: {fileID: 3533896497101703159}
   - component: {fileID: 3533896497101703156}
   - component: {fileID: 5204181046729320766}
+  - component: {fileID: -134301836237256625}
   m_Layer: 0
   m_Name: waterslash
   m_TagString: Untagged
@@ -4941,7 +4942,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3533896498416198198}
@@ -9763,6 +9764,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParticleStartAt
   startTime: 0.15
+--- !u!114 &-134301836237256625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3533896497101703157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d7b5b387b0cc7b46a642b9762191e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlashHitbox
 --- !u!1 &3533896497819481005
 GameObject:
   m_ObjectHideFlags: 0
