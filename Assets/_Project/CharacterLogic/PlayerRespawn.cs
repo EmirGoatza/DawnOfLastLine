@@ -17,6 +17,9 @@ public class PlayerRespawn : MonoBehaviour
 
     private CharacterController characterController;
 
+    [Header("Gestion Caméra")]
+    [SerializeField] public CameraManager cameraManager;
+
     void Awake()
     {
         health = GetComponent<Health>();
@@ -47,6 +50,9 @@ public class PlayerRespawn : MonoBehaviour
 
     IEnumerator RespawnCoroutine()
     {
+
+        if (CameraManager.Instance != null) CameraManager.Instance.ShowDeathCamera();
+
         // Désactive contrôles
         if (charMove != null) charMove.canMove = false;
         if (combat != null) combat.enabled = false;
@@ -61,16 +67,16 @@ public class PlayerRespawn : MonoBehaviour
 
         yield return new WaitForSeconds(respawnDelay);
 
-    // Désactive CharacterController pour éviter les problèmes
-    characterController = GetComponent<CharacterController>();
-    characterController.enabled = false;
+        // Désactive CharacterController pour éviter les problèmes
+        characterController = GetComponent<CharacterController>();
+        characterController.enabled = false;
 
-    // Téléportation
-    if (respawnPoint != null)
-        transform.position = respawnPoint.position;
+        // Téléportation
+        if (respawnPoint != null)
+            transform.position = respawnPoint.position;
 
-    // Réactive CharacterController
-    characterController.enabled = true;
+        // Réactive CharacterController
+        characterController.enabled = true;
 
 
         // Reset HP
@@ -87,6 +93,8 @@ public class PlayerRespawn : MonoBehaviour
         // Réactive contrôles
         if (charMove != null) charMove.canMove = true;
         if (combat != null) combat.enabled = true;
+
+        if (CameraManager.Instance != null) CameraManager.Instance.ShowMainCamera();
     }
 
 }
