@@ -135,7 +135,7 @@ MonoBehaviour:
   allyTag: Ally
   sideOffset: 0
   splineContainer: {fileID: 0}
-  attackRange: 5
+  attackRange: 2
   attackCooldown: 1.5
   damage: 10
 --- !u!114 &-2109205372469509961

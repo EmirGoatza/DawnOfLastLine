@@ -184,12 +184,20 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6715086831514710429, guid: 2bbbaa195caef594d8d91135965894b9, type: 3}
+      propertyPath: actOnTimer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6715086831514710429, guid: 2bbbaa195caef594d8d91135965894b9, type: 3}
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 1172747990}
     - target: {fileID: 6823125488924625524, guid: 2bbbaa195caef594d8d91135965894b9, type: 3}
       propertyPath: m_Name
       value: SpawnArcher
+      objectReference: {fileID: 0}
+    - target: {fileID: 6823125488924625524, guid: 2bbbaa195caef594d8d91135965894b9, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -828,7 +836,7 @@ MonoBehaviour:
   currentPhase: 1
   currentWave: 0
   spawnInterval: 2
-  enemiesPerWave: 5
+  enemiesPerWave: 20
   laneWidth: 2
   waveText: {fileID: 199782688}
   enemyPrefab: {fileID: 8465884811639949209, guid: 58b4643dd9c5b2c41816770cf0bada3d, type: 3}
@@ -1899,6 +1907,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpawnArcher (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6823125488924625524, guid: 2bbbaa195caef594d8d91135965894b9, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1951,6 +1963,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4761258711077880232, guid: 323457b426be32940999f4e2afd16df0, type: 3}
       propertyPath: m_Name
+      value: MainBuilding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761258711077880232, guid: 323457b426be32940999f4e2afd16df0, type: 3}
+      propertyPath: m_TagString
       value: MainBuilding
       objectReference: {fileID: 0}
     - target: {fileID: 6418306505907955871, guid: 323457b426be32940999f4e2afd16df0, type: 3}
@@ -2049,6 +2065,10 @@ PrefabInstance:
     - target: {fileID: 1093960497100260910, guid: 30f5a5df73722be429a8507bb1f14345, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1611203689967352894, guid: 30f5a5df73722be429a8507bb1f14345, type: 3}
+      propertyPath: moveSpeed
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
