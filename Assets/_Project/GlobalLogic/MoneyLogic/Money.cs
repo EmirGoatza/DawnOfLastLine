@@ -18,6 +18,7 @@ public class PlayerMoney : MonoBehaviour
         {
             currentAmount = Mathf.Max(0, value);
             OnMoneyChanged?.Invoke(currentAmount);
+            waveText.text = CurrentAmount.ToString();
         }
     }
 
@@ -44,10 +45,5 @@ public class PlayerMoney : MonoBehaviour
     public void ResetMoney()
     {
         CurrentAmount = startingAmount;
-    }
-
-    public void Update()
-    {
-        waveText.text = CurrentAmount + " Pièce d'or";
     }
 }
