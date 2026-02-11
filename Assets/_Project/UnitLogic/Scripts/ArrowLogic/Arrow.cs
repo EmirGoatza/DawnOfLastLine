@@ -49,17 +49,19 @@ public class Arrow : MonoBehaviour
             {
                 health.TakeDamage(damage);
             }
+            
+            // Stop the arrow
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if(rb != null)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.isKinematic = true;
+            }
+        
+            transform.SetParent(collision.transform);
                 
         }
         
-        // Stop the arrow
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if(rb != null)
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.isKinematic = true;
-        }
-        
-        transform.SetParent(collision.transform);
+
     }
 }

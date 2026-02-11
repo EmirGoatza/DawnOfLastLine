@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.Splines;
+using Unity.Mathematics;
 
 public abstract class Building : MonoBehaviour
 {
@@ -22,16 +24,16 @@ public abstract class Building : MonoBehaviour
     private float currentCountdown;
     private float upgradeCooldown;
     private bool trigger = false;
-    
+
     private float lastCountdown = 0f;
 
     [Header("Building Behavior")]
     public Transform playerTransform;
     public bool actOnTimer;
     public float distance;
-
+    public SplineContainer spline;
     private static List<Building> buildings = new List<Building>();
-    
+
 
     public void Trigger()
     {
@@ -55,6 +57,38 @@ public abstract class Building : MonoBehaviour
             if (player != null)
                 playerTransform = player.transform;
         }
+
+        if (spline == null)
+        {
+            SplineContainer[] splines = FindObjectsOfType<SplineContainer>();
+
+            float closestDistance = float.MaxValue;
+            SplineContainer closestSpline = null;
+
+            foreach (var s in splines)
+            {
+                float3 nearestPoint;
+                float t;
+
+                SplineUtility.GetNearestPoint(
+                    s.Spline,
+                    transform.position,
+                    out nearestPoint,
+                    out t
+                );
+
+                float distance = Vector3.Distance(transform.position, nearestPoint);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestSpline = s;
+                }
+            }
+
+            spline = closestSpline;
+        }
+
     }
 
     private void OnEnable()
@@ -73,10 +107,10 @@ public abstract class Building : MonoBehaviour
     {
         if (currentCountdown > 0f)
             currentCountdown = Mathf.Max(0f, currentCountdown - Time.deltaTime);
-        
+
         if (upgradeCooldown > 0f)
             upgradeCooldown = Mathf.Max(0f, upgradeCooldown - Time.deltaTime);
-        
+
         if (Mathf.Floor(currentCountdown) != Mathf.Floor(lastCountdown))
         {
             Debug.Log($"Countdown: {currentCountdown:F2}, Trigger: {trigger}");
@@ -85,7 +119,7 @@ public abstract class Building : MonoBehaviour
 
         if (actOnTimer)
         {
-            if (currentCountdown <= 0f )
+            if (currentCountdown <= 0f)
             {
                 Execute();
             }
@@ -109,8 +143,10 @@ public abstract class Building : MonoBehaviour
                 }
             }
 
-            // Si c'est ce bâtiment-ci le plus proche et que le joueur est à portée
-            if (nearest == this && Keyboard.current.xKey.isPressed && minDistSqr <= distance * distance)
+            bool keyboardPressed = Keyboard.current != null && Keyboard.current.xKey.isPressed;
+            bool gamepadPressed = Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame;
+
+            if (nearest == this && (keyboardPressed || gamepadPressed) && minDistSqr <= distance * distance)
             {
                 Trigger();
             }
@@ -123,7 +159,7 @@ public abstract class Building : MonoBehaviour
 
 
     }
-    
+
     void Execute()
     {
         AttackorSpawn();
@@ -141,25 +177,25 @@ public abstract class Building : MonoBehaviour
         OnUpgrade();
         upgradeVisual();
     }
-    
+
     private void upgradeVisual()
     {
         if (level1model == null) Debug.LogError("level1model is NULL!");
         if (level2model == null) Debug.LogError("level2model is NULL!");
         if (level3model == null) Debug.LogError("level3model is NULL!");
-    
+
         level1model.SetActive(currentLevel == 1);
         level2model.SetActive(currentLevel == 2);
         level3model.SetActive(currentLevel == 3);
-    
+
         Debug.Log($"Level {currentLevel} - L1:{level1model.activeSelf}, L2:{level2model.activeSelf}, L3:{level3model.activeSelf}");
     }
-    
+
     private void OnDisable()
     {
         buildings.Remove(this);
     }
-    
+
     protected abstract void OnUpgrade();
     protected abstract void AttackorSpawn();
 }

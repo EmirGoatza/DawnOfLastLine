@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
-
+using UnityEngine.Splines;
 // ----------------------
 // Generic Unit Controller
 // ----------------------
@@ -64,11 +64,16 @@ public class UnitController : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
-            float dist = Vector3.Distance(transform.position, enemy.transform.position);
-            if (dist < closestDist)
+            Enemy e = enemy.GetComponent<Enemy>();
+            Building b = spawn.GetComponent<Building>();
+            if (e.splineContainer == b.spline)
             {
-                closestDist = dist;
-                targetEnemy = enemy.transform;
+                float dist = Vector3.Distance(transform.position, enemy.transform.position);
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    targetEnemy = enemy.transform;
+                }
             }
         }
 
