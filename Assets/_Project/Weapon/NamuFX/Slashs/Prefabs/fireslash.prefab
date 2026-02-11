@@ -9757,6 +9757,7 @@ GameObject:
   - component: {fileID: 5942177893964023154}
   - component: {fileID: 5942177893964023155}
   - component: {fileID: -5116970746414589968}
+  - component: {fileID: -641782978244376812}
   m_Layer: 0
   m_Name: fireslash
   m_TagString: Untagged
@@ -14596,6 +14597,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParticleStartAt
   startTime: 0.15
+--- !u!114 &-641782978244376812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5942177893964023165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d7b5b387b0cc7b46a642b9762191e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlashHitbox
 --- !u!1 &5942177894242009866
 GameObject:
   m_ObjectHideFlags: 0

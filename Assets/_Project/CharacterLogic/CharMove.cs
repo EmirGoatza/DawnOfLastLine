@@ -16,6 +16,9 @@ public class CharMove : MonoBehaviour
 
     [HideInInspector] public bool canMove = true;
 
+    [Header("References")]
+    public Animator animator;
+
     private CharacterController controller;
     private Transform cam;
     private float verticalVelocity;
@@ -33,6 +36,7 @@ public class CharMove : MonoBehaviour
         controller = GetComponent<CharacterController>();
         health = GetComponent<Health>();
 
+        if (animator == null) animator = GetComponent<Animator>();
         if (Camera.main != null) cam = Camera.main.transform;
         
         enemyTarget = GetComponent<EnemyTarget>();
@@ -55,11 +59,13 @@ public class CharMove : MonoBehaviour
         if (!canMove || (health != null && health.IsDead))
         {
             controller.Move(new Vector3(0, verticalVelocity, 0) * Time.deltaTime);
+            UpdateAnimatorParameters();
             return; 
         }
 
         HandleInput();
         ApplyMovement();
+        UpdateAnimatorParameters();
     }
     
     void HandleInput()
@@ -133,4 +139,33 @@ public class CharMove : MonoBehaviour
 
         controller.Move(finalVelocity * Time.deltaTime);
     }
+
+    void UpdateAnimatorParameters()
+{
+    if (animator == null) return;
+
+    float x = 0f;
+    float z = 0f;
+
+    bool isLockedOn = (enemyTarget != null && enemyTarget.currentTarget != null);
+
+    if (isLockedOn)
+    {
+        x = currentInputVector.x;
+        z = currentInputVector.y;
+    }
+    else
+    {
+        x = 0f; 
+        z = currentInputVector.magnitude;
+    }
+
+    if (IsRunning && z > 0.1f) 
+    {
+        z = 2f; 
+    }
+
+    animator.SetFloat("PosX", x, 0.1f, Time.deltaTime);
+    animator.SetFloat("PosY", z, 0.1f, Time.deltaTime);
+}
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2673945186396138711}
   - component: {fileID: 5980735163361776318}
   - component: {fileID: -986492113157725035}
+  - component: {fileID: -264532649428511243}
   m_Layer: 0
   m_Name: LightningSlash
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1981268239401060612}
@@ -4851,6 +4852,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParticleStartAt
   startTime: 0.15
+--- !u!114 &-264532649428511243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174940048960636371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d7b5b387b0cc7b46a642b9762191e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlashHitbox
 --- !u!1 &1958888217961488850
 GameObject:
   m_ObjectHideFlags: 0
