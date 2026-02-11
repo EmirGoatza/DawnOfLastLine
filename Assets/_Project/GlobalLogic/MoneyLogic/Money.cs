@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class PlayerMoney : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerMoney : MonoBehaviour
     private int currentAmount;
 
     public UnityEvent<int> OnMoneyChanged;
+    [SerializeField] private TextMeshProUGUI waveText;
 
     public int CurrentAmount
     {
@@ -46,6 +48,6 @@ public class PlayerMoney : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log($"Current Money: {CurrentAmount}");
+        waveText.text = CurrentAmount + " Pièce d'or";
     }
 }
