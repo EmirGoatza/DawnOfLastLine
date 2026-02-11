@@ -2699,6 +2699,22 @@ MonoBehaviour:
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1664687028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664687018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 793ac82b2b38ac84d895005c49e37aee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMoney
+  startingAmount: 10
+  OnMoneyChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1699193292
 GameObject:
   m_ObjectHideFlags: 0
@@ -3382,6 +3398,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ec57a7c62e93bf34eb30016736ac1a88, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1664687026}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ec57a7c62e93bf34eb30016736ac1a88, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1664687028}
   m_SourcePrefab: {fileID: 100100000, guid: ec57a7c62e93bf34eb30016736ac1a88, type: 3}
 --- !u!1 &1960935401
 GameObject:

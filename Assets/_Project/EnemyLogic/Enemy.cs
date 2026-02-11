@@ -8,6 +8,7 @@ public abstract class Enemy : MonoBehaviour
     [Header("Statistiques de Base")]
     [SerializeField] protected string enemyName;
     [SerializeField] protected float moveSpeed;
+    [SerializeField] protected float moneyDropped = 10f;
 
 
     public enum EnemyState { FollowingSpline, ChasingTarget, ReturningToSpline }
@@ -32,6 +33,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected Transform player;
     private Health playerHealth;
+    private PlayerMoney playerMoney;
 
     protected Transform mainBuilding;
 
@@ -45,6 +47,7 @@ public abstract class Enemy : MonoBehaviour
         {
             player = playerObj.transform;
             playerHealth = playerObj.GetComponent<Health>();
+            playerMoney = playerObj.GetComponent<PlayerMoney>();
         }
         if (mainBuildingObj != null) mainBuilding = mainBuildingObj.transform;
     }
@@ -74,7 +77,22 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log($"{enemyName} est mort !");
+        if (playerMoney != null)
+        {
+            playerMoney.Add(CalculateMoneyDropRandomized());
+        }
         Destroy(gameObject);
+    }
+
+    protected int CalculateMoneyDrop()
+    {
+        return (int)moneyDropped;
+    }
+    protected int CalculateMoneyDropRandomized()
+    {
+        float variance = moneyDropped * 0.2f; // 20% de variance
+        float randomizedAmount = moneyDropped + UnityEngine.Random.Range(-variance, variance);
+        return Mathf.Max(1, Mathf.RoundToInt(randomizedAmount));
     }
 
     protected virtual void Update()

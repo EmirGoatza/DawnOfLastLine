@@ -1,0 +1,51 @@
+using UnityEngine;
+using UnityEngine.Events;
+
+public class PlayerMoney : MonoBehaviour
+{
+    [SerializeField] private int startingAmount = 0;
+
+    private int currentAmount;
+
+    public UnityEvent<int> OnMoneyChanged;
+
+    public int CurrentAmount
+    {
+        get => currentAmount;
+        private set
+        {
+            currentAmount = Mathf.Max(0, value);
+            OnMoneyChanged?.Invoke(currentAmount);
+        }
+    }
+
+    void Awake()
+    {
+        CurrentAmount = startingAmount;
+    }
+
+    public void Add(int amount)
+    {
+        if (amount <= 0) return;
+        CurrentAmount += amount;
+    }
+
+    public bool Spend(int amount)
+    {
+        if (amount <= 0) return false;
+        if (CurrentAmount < amount) return false;
+
+        CurrentAmount -= amount;
+        return true;
+    }
+
+    public void ResetMoney()
+    {
+        CurrentAmount = startingAmount;
+    }
+
+    public void Update()
+    {
+        Debug.Log($"Current Money: {CurrentAmount}");
+    }
+}
