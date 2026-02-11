@@ -50,10 +50,6 @@ public class PlayerRespawn : MonoBehaviour
         // Désactive contrôles
         if (charMove != null) charMove.canMove = false;
         if (combat != null) combat.enabled = false;
-        
-        // Déplace le joueur loin de la scène
-        transform.position = new Vector3(-100, -100, -100);
-
 
         // Désactive visuel
         foreach (var r in renderers)
@@ -65,9 +61,17 @@ public class PlayerRespawn : MonoBehaviour
 
         yield return new WaitForSeconds(respawnDelay);
 
-        // Téléportation
-        if (respawnPoint != null)
-            transform.position = respawnPoint.position;
+    // Désactive CharacterController pour éviter les problèmes
+    characterController = GetComponent<CharacterController>();
+    characterController.enabled = false;
+
+    // Téléportation
+    if (respawnPoint != null)
+        transform.position = respawnPoint.position;
+
+    // Réactive CharacterController
+    characterController.enabled = true;
+
 
         // Reset HP
         health.ResetHealth();

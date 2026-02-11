@@ -31,6 +31,8 @@ public abstract class Enemy : MonoBehaviour
     protected Health health;
 
     protected Transform player;
+    private Health playerHealth;
+
     protected Transform mainBuilding;
 
     protected virtual void Awake()
@@ -39,7 +41,11 @@ public abstract class Enemy : MonoBehaviour
         // On trouve le joueur automatiquement au démarrage
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         GameObject mainBuildingObj = GameObject.FindGameObjectWithTag("MainBuilding");
-        if (playerObj != null) player = playerObj.transform;
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+            playerHealth = playerObj.GetComponent<Health>();
+        }
         if (mainBuildingObj != null) mainBuilding = mainBuildingObj.transform;
     }
 
@@ -91,6 +97,7 @@ public abstract class Enemy : MonoBehaviour
                 break;
 
             case EnemyState.ReturningToSpline:
+                CheckForTargets();
                 ReturnToSplineLogic();
                 break;
         }
@@ -123,7 +130,7 @@ public abstract class Enemy : MonoBehaviour
         float closestDistance = detectionRange;
 
         // On cherche d'abord si le joueur est à portée
-        if (player != null)
+        if (player != null && playerHealth != null && !playerHealth.IsDead)
         {
             float distToPlayer = Vector3.Distance(transform.position, player.position);
             if (distToPlayer < closestDistance)
@@ -175,7 +182,11 @@ public abstract class Enemy : MonoBehaviour
     // Aller vers la cible
     private void MoveTowardsTarget()
     {
-        if (currentTarget == null) { currentState = EnemyState.ReturningToSpline; return; }
+        if (currentTarget == null || (currentTarget == player && playerHealth != null && playerHealth.IsDead)) 
+        { 
+            currentState = EnemyState.ReturningToSpline; 
+            return; 
+        }
 
         Vector3 destination = currentTarget.position;
         Collider targetCollider = currentTarget.GetComponent<Collider>();
