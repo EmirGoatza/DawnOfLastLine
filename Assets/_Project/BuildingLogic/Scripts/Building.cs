@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public abstract class Building : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public abstract class Building : MonoBehaviour
     public Transform playerTransform;
     public bool actOnTimer;
     public float distance;
-
+    public SplineContainer spline;
     private static List<Building> buildings = new List<Building>();
     
 
@@ -110,7 +111,7 @@ public abstract class Building : MonoBehaviour
             }
 
             // Si c'est ce bâtiment-ci le plus proche et que le joueur est à portée
-            if (nearest == this && Keyboard.current.xKey.isPressed && minDistSqr <= distance * distance)
+            if (nearest == this && (Keyboard.current.xKey.isPressed || Gamepad.current.buttonNorth.wasPressedThisFrame)  && minDistSqr <= distance * distance)
             {
                 Trigger();
             }

@@ -25,7 +25,7 @@ public abstract class Enemy : MonoBehaviour
     public float sideOffset = 0f; // Décalage latéral pour éviter que tous les ennemis soient exactement au même endroit sur la spline
 
     [Header("Spline")]
-    [SerializeField] private SplineContainer splineContainer;
+    [SerializeField] public SplineContainer splineContainer;
     private float distanceTraveled = 0f;
 
     protected Health health;
