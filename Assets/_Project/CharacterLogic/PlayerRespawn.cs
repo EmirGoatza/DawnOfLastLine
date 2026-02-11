@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
 
 [RequireComponent(typeof(Health))]
 public class PlayerRespawn : MonoBehaviour
@@ -18,7 +19,11 @@ public class PlayerRespawn : MonoBehaviour
     private CharacterController characterController;
 
     [Header("Gestion Caméra")]
-    [SerializeField] public CameraManager cameraManager;
+    private CameraManager cameraManager;
+
+    [Header("UI de Mort")]
+    [SerializeField] private GameObject deathUI;
+    [SerializeField] private TMP_Text deathText;
 
     void Awake()
     {
@@ -48,10 +53,34 @@ public class PlayerRespawn : MonoBehaviour
         StartCoroutine(RespawnCoroutine());
     }
 
+    void ShowDeathUI()
+    {
+        if (deathUI) deathUI.SetActive(true);
+        StartCoroutine(UpdateRespawnTimer());
+    }
+
+    IEnumerator UpdateRespawnTimer()
+    {
+        float timeRemaining = respawnDelay;
+        while (timeRemaining > 0)
+        {
+            if (deathText) deathText.text = $"Vous êtes mort...\nRespawn dans {timeRemaining:F1}s";
+            yield return new WaitForSeconds(0.1f);
+            timeRemaining -= 0.1f;
+        }
+    }
+
+    void HideDeathUI()
+    {
+        if (deathUI) deathUI.SetActive(false);
+    }
+
     IEnumerator RespawnCoroutine()
     {
 
         if (CameraManager.Instance != null) CameraManager.Instance.ShowDeathCamera();
+
+        ShowDeathUI();
 
         // Désactive contrôles
         if (charMove != null) charMove.canMove = false;
@@ -66,6 +95,8 @@ public class PlayerRespawn : MonoBehaviour
             c.enabled = false;
 
         yield return new WaitForSeconds(respawnDelay);
+
+        HideDeathUI();
 
         // Désactive CharacterController pour éviter les problèmes
         characterController = GetComponent<CharacterController>();
@@ -99,6 +130,7 @@ public class PlayerRespawn : MonoBehaviour
         // Réactive contrôles
         if (charMove != null) charMove.canMove = true;
         if (combat != null) combat.enabled = true;
+
     }
 
 }
