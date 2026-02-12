@@ -31,6 +31,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private TMP_Text gameOverText;
 
+    [Header("Preparation UI")]
+    [SerializeField] private TMP_Text preparationText;
+    [SerializeField] private float blinkSpeed = 0.5f;
+
     void Awake()
     {
         Instance = this;
@@ -57,10 +61,32 @@ public class GameManager : MonoBehaviour
     {
         preparationTimer -= Time.deltaTime;
 
-        bool timerFinished = preparationTimer <= 0f;
-
         bool playerNear =
             Vector3.Distance(player.position, buildingTransform.position) <= activationDistance;
+
+        /// Texte de préparation
+        if (preparationText)
+        {
+            string baseText =
+                "Préparez-vous contre la horde...\nDébut dans " +
+                Mathf.CeilToInt(preparationTimer) + " secondes";
+
+            if (playerNear)
+            {
+                float alpha = Mathf.Abs(Mathf.Sin(Time.time * blinkSpeed));
+                int alphaInt = Mathf.RoundToInt(alpha * 255);
+                string alphaHex = alphaInt.ToString("X2");
+
+                baseText += $"\n\n<color=#FFFF00{alphaHex}>Appuyez sur P ou Triangle pour appeler la horde en avance</color>";
+
+            }
+
+            preparationText.text = baseText;
+        }
+
+        /// Logique de début de la phase d'attaque
+        bool timerFinished = preparationTimer <= 0f;
+
 
         bool inputPressed =
             Keyboard.current.pKey.wasPressedThisFrame ||
@@ -77,19 +103,22 @@ public class GameManager : MonoBehaviour
         currentPhase = GamePhase.Preparation;
         preparationTimer = preparationDuration;
 
-        Debug.Log("=== PHASE PREPARATION ===");
+        if (preparationText)
+        {
+            preparationText.gameObject.SetActive(true);
+        }
     }
 
     void StartAttackPhase()
     {
         currentPhase = GamePhase.Attack;
 
+        if (preparationText) { preparationText.gameObject.SetActive(false); }
+
         foreach (var lane in lanes)
         {
             lane.StartWave();
         }
-
-        Debug.Log("=== PHASE ATTACK ===");
     }
 
     void CheckEndOfWave()
