@@ -35,6 +35,8 @@ public abstract class Building : MonoBehaviour
     private static List<Building> buildings = new List<Building>();
 
 
+    private Health health;
+
     public void Trigger()
     {
         if (currentCountdown <= 0f)
@@ -87,6 +89,12 @@ public abstract class Building : MonoBehaviour
             }
 
             spline = closestSpline;
+        }
+
+        health = GetComponent<Health>();
+        if (health != null)
+        {
+            health.OnDeath.AddListener(HandleDeath);
         }
 
     }
@@ -195,6 +203,22 @@ public abstract class Building : MonoBehaviour
     {
         buildings.Remove(this);
     }
+
+    private void HandleDeath()
+    {
+        //TODO: On pourrait ajouter un bruit de destuction si on est proche du joueur ou autre feedback visuel dans l'ui
+        Debug.Log($"Le bâtiment {gameObject.name} a été détruit !");
+        Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (health != null)
+        {
+            health.OnDeath.RemoveListener(HandleDeath);
+        }
+    }
+
 
     protected abstract void OnUpgrade();
     protected abstract void AttackorSpawn();
