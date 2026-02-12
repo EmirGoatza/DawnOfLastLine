@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
         if (buildingTransform == null)
             return;
