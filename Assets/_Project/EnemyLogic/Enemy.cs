@@ -159,25 +159,29 @@ public abstract class Enemy : MonoBehaviour
         }
 
         // On cherche l'objet le plus proche avec le tag Ally
-        GameObject[] allies = GameObject.FindGameObjectsWithTag(allyTag);
-        foreach (GameObject ally in allies)
-        {
-            // On recup le collider pour calculer la distance à la surface, pas au centre
-            Collider allyCollider = ally.GetComponent<Collider>();
-            Vector3 targetPoint = (allyCollider != null) 
-            ? allyCollider.ClosestPoint(transform.position) 
-            : ally.transform.position;
 
-            // On calcule la distance par rapport à la surface
-            float distToAlly = Vector3.Distance(transform.position, targetPoint);
-
-            // Si cet allié est à portée et plus proche que ce qu'on a trouvé avant
-            if (distToAlly < closestDistance)
+        if (bestTarget == null) {
+            GameObject[] allies = GameObject.FindGameObjectsWithTag(allyTag);
+            foreach (GameObject ally in allies)
             {
-                closestDistance = distToAlly;
-                bestTarget = ally.transform;
+                // On recup le collider pour calculer la distance à la surface, pas au centre
+                Collider allyCollider = ally.GetComponent<Collider>();
+                Vector3 targetPoint = (allyCollider != null) 
+                ? allyCollider.ClosestPoint(transform.position) 
+                : ally.transform.position;
+
+                // On calcule la distance par rapport à la surface
+                float distToAlly = Vector3.Distance(transform.position, targetPoint);
+
+                // Si cet allié est à portée et plus proche que ce qu'on a trouvé avant
+                if (distToAlly < closestDistance)
+                {
+                    closestDistance = distToAlly;
+                    bestTarget = ally.transform;
+                }
             }
         }
+
 
         // On ne le check que si on n'a pas trouvé de cible plus urgente (joueur ou allié)
         if (bestTarget == null && mainBuilding != null)
