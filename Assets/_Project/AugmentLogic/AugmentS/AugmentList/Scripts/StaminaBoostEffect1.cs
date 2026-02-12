@@ -5,7 +5,7 @@ public class StaminaBoostEffect : AugmentEffect
 {
     public float bonusStamina = 1f;
 
-    public override void Apply()
+    public override void Apply(GameObject player)
     {
         Debug.Log("Stamina Boost appliqué");
     }

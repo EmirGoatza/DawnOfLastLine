@@ -5,11 +5,8 @@ using TMPro;
 public class AugmentCardUI : MonoBehaviour
 {
     [SerializeField] private Image background;
-    [SerializeField] private Image icon; 
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI descriptionText;
-    [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color selectedColor = Color.yellow;
 
     public AugmentData augmentData;
 
@@ -22,17 +19,15 @@ public class AugmentCardUI : MonoBehaviour
     {
         if (augmentData != null)
         {
-            if (titleText != null) titleText.text = augmentData.augmentName;
-            if (descriptionText != null) descriptionText.text = augmentData.description;
-            if (icon != null) icon.sprite = augmentData.icon; 
+            titleText?.SetText(augmentData.augmentName);
+            descriptionText?.SetText(augmentData.description);
         }
     }
 
     public void SetSelected(bool selected)
     {
-        Color color = selected ? selectedColor : normalColor;
-        color.a = selected ? 0.5f : 0f;
-        background.color = color;
-        transform.localScale = selected ? Vector3.one * 1.1f : Vector3.one;
+        background.color = new Color(background.color.r, background.color.g, background.color.b, selected ? 1f : 0.27f);
+        titleText.color = new Color(titleText.color.r, titleText.color.g, titleText.color.b, selected ? 1f : 0.27f);
+        descriptionText.color = new Color(descriptionText.color.r, descriptionText.color.g, descriptionText.color.b, selected ? 1f : 0.27f);
     }
 }

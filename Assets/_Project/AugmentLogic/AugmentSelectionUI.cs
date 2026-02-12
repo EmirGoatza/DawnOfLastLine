@@ -11,6 +11,8 @@ public class AugmentSelectionUI : MonoBehaviour
     private float lastInputTime;
     private bool isActive = false;
 
+    [SerializeField] private GameObject player;
+
     void Update()
     {
         if (!isActive) return;
@@ -81,7 +83,7 @@ public class AugmentSelectionUI : MonoBehaviour
 
             if (selectedAugment != null && selectedAugment.effect != null)
             {
-                selectedAugment.effect.Apply();
+                selectedAugment.effect.Apply(player);
             }
 
             Hide();

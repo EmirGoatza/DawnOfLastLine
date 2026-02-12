@@ -22,7 +22,7 @@ public class Health : MonoBehaviour
     public float CurrentHealth
     {
         get => currentHealth;
-        private set
+        set
         {
             currentHealth = value;
             OnHealthChanged?.Invoke(currentHealth, maxHealth);
