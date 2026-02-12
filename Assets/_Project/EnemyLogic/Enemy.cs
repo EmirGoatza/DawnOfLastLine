@@ -9,6 +9,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected string enemyName;
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float moneyDropped = 10f;
+    [SerializeField] protected float rotationSpeed = 10f;
 
 
     public enum EnemyState { FollowingSpline, ChasingTarget, ReturningToSpline, Attacking }
@@ -55,6 +56,12 @@ public abstract class Enemy : MonoBehaviour
     public void setContainerSpline(SplineContainer container)
     {
         splineContainer = container;
+    }
+
+    public void SetInitialDistanceOffset(float offset)
+    {
+        // On met une distance négative pour créer un retard
+        distanceTraveled = -offset;
     }
 
     void OnEnable()
@@ -157,7 +164,8 @@ public abstract class Enemy : MonoBehaviour
         if (splineContainer == null) return;
         
         distanceTraveled += moveSpeed * Time.deltaTime;
-        float t = distanceTraveled / splineContainer.CalculateLength();
+        float actualDistance = Mathf.Max(0, distanceTraveled); // si la distance est négative, l'ennemi reste bloqué au point 0 (le départ) en attendant son tour (pour en faire spown pleins pas sur de garder).
+        float t = actualDistance / splineContainer.CalculateLength();
 
         // Si on a atteint la fin de la spline, on meurt
         if (t >= 1f) { Die(); return; }
@@ -165,10 +173,22 @@ public abstract class Enemy : MonoBehaviour
         // Calcul de la position sur la spline avec le décalage latéral
         Vector3 pos = (Vector3)splineContainer.EvaluatePosition(t);
         Vector3 tangent = (Vector3)splineContainer.EvaluateTangent(t);
-        Vector3 sideDirection = Vector3.Cross(tangent, Vector3.up).normalized;
 
+        Vector3 sideDirection = Vector3.Cross(tangent, Vector3.up).normalized;
         transform.position = pos + (sideDirection * sideOffset);
-        transform.rotation = Quaternion.LookRotation(tangent);
+
+        if (tangent != Vector3.zero)
+        {
+            // On calcule la rotation cible
+            Quaternion targetRotation = Quaternion.LookRotation(tangent);
+
+            // On tourne progressivement vers cette cible
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation, 
+                targetRotation, 
+                Time.deltaTime * rotationSpeed
+            );
+        }
     }
 
     // Détection de perso à attaquer
@@ -189,25 +209,29 @@ public abstract class Enemy : MonoBehaviour
         }
 
         // On cherche l'objet le plus proche avec le tag Ally
-        GameObject[] allies = GameObject.FindGameObjectsWithTag(allyTag);
-        foreach (GameObject ally in allies)
-        {
-            // On recup le collider pour calculer la distance à la surface, pas au centre
-            Collider allyCollider = ally.GetComponent<Collider>();
-            Vector3 targetPoint = (allyCollider != null) 
-            ? allyCollider.ClosestPoint(transform.position) 
-            : ally.transform.position;
 
-            // On calcule la distance par rapport à la surface
-            float distToAlly = Vector3.Distance(transform.position, targetPoint);
-
-            // Si cet allié est à portée et plus proche que ce qu'on a trouvé avant
-            if (distToAlly < closestDistance)
+        if (bestTarget == null) {
+            GameObject[] allies = GameObject.FindGameObjectsWithTag(allyTag);
+            foreach (GameObject ally in allies)
             {
-                closestDistance = distToAlly;
-                bestTarget = ally.transform;
+                // On recup le collider pour calculer la distance à la surface, pas au centre
+                Collider allyCollider = ally.GetComponent<Collider>();
+                Vector3 targetPoint = (allyCollider != null) 
+                ? allyCollider.ClosestPoint(transform.position) 
+                : ally.transform.position;
+
+                // On calcule la distance par rapport à la surface
+                float distToAlly = Vector3.Distance(transform.position, targetPoint);
+
+                // Si cet allié est à portée et plus proche que ce qu'on a trouvé avant
+                if (distToAlly < closestDistance)
+                {
+                    closestDistance = distToAlly;
+                    bestTarget = ally.transform;
+                }
             }
         }
+
 
         // On ne le check que si on n'a pas trouvé de cible plus urgente (joueur ou allié)
         if (bestTarget == null && mainBuilding != null)

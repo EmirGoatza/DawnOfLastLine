@@ -2,9 +2,17 @@ using UnityEngine;
 using System.Collections;
 using TMPro;
 using UnityEngine.Splines;
+using System.Collections.Generic;
 
 public class WaveManager : MonoBehaviour
 {
+    [System.Serializable]
+    public struct EnemyGroup
+    {
+        public int count;        // Combien d'ennemis dans ce groupe
+        public float delayAfter; // Temps d'attente après ce groupe
+    }
+
     public enum GamePhase { Preparation, Attack }
 
     [Header("État de la Manche")]
@@ -12,12 +20,13 @@ public class WaveManager : MonoBehaviour
     public int currentWave = 0;
 
     [Header("Paramètres d'Attaque")]
-    [SerializeField] private float spawnInterval = 2f;
-    [SerializeField] private int enemiesPerWave = 5;
+    [SerializeField] private List<EnemyGroup> groupsInWave;
+    private int totalEnemiesThisWave = 0;
     private int enemiesSpawnedThisWave = 0;
 
     [Header("Paramètres de Formation")]
-    [SerializeField] private float laneWidth = 2f; // Largeur du couloir de marche
+    [SerializeField] private float laneWidth = 5f; // Largeur du couloir de marche
+    [SerializeField] private float spacingZ = 3f; // Distance entre les rangs
 
 
     [Header("UI References")]
@@ -47,7 +56,7 @@ public class WaveManager : MonoBehaviour
         waveText.text = "Manche : " + currentWave;
         if (currentPhase == GamePhase.Attack)
         {
-            if (enemiesSpawnedThisWave >= enemiesPerWave && GetEnemyCount() == 0)
+            if (enemiesSpawnedThisWave >= totalEnemiesThisWave && GetEnemyCount() == 0)
             {
                 StartPreparationPhase();
             }
@@ -66,28 +75,52 @@ public class WaveManager : MonoBehaviour
         currentWave++;
         enemiesSpawnedThisWave = 0;
 
+        // On calcule le total d'ennemis prévus dans la liste pour savoir quand finir la vague
+        totalEnemiesThisWave = 0;
+        foreach (var group in groupsInWave) {
+            totalEnemiesThisWave += group.count;
+        }
+
         Debug.Log("// Phase d'ATTAQUE ! Manche " + currentWave);
         StartCoroutine(SpawnWaveRoutine());
     }
 
     IEnumerator SpawnWaveRoutine()
     {
-        while (enemiesSpawnedThisWave < enemiesPerWave)
+        // On parcourt chaque groupe défini à la main dans l'Inspecteur
+        foreach (EnemyGroup group in groupsInWave)
         {
-            SpawnEnemy();
-            enemiesSpawnedThisWave++;
-            yield return new WaitForSeconds(spawnInterval);
+            for (int i = 0; i < group.count; i++)
+            {
+                SpawnEnemy(i, group.count);
+                enemiesSpawnedThisWave++;
+            }
+
+            // On attend le temps spécifique défini pour ce groupe précis
+            yield return new WaitForSeconds(group.delayAfter);
         }
     }
 
-    void SpawnEnemy()
+    void SpawnEnemy(int indexInGroup, int groupSize)
     {
         if (enemyPrefab != null && spawnPoint != null)
         {
-            float randomSideOffset = Random.Range(-laneWidth / 2f, laneWidth / 2f);
+            // Calcul de la pos en x (Répartition régulière)  
+            float xPos = 0;
+            if (groupSize > 1) 
+            {
+                // Calcule un ratio entre -0.5 et 0.5 selon l'index
+                float completion = (float)indexInGroup / (groupSize - 1);
+                xPos = (completion - 0.5f) * laneWidth;
+            }
+
+            // Calcul de la position z (Pour les décaler un peu en profondeur)
+            float zPos = indexInGroup * -spacingZ; 
+            Vector3 spawnPos = spawnPoint.position + new Vector3(xPos, 0, zPos);
+
             GameObject enemyInstance = Instantiate(
             enemyPrefab,
-            spawnPoint.position + new Vector3(randomSideOffset, 0, 0),
+            spawnPos,
             Quaternion.identity
             );
 
@@ -99,7 +132,8 @@ public class WaveManager : MonoBehaviour
 
             Enemy enemyScript = enemyInstance.GetComponent<Enemy>();
             enemyScript.setContainerSpline(splineContainer);
-            enemyScript.sideOffset = randomSideOffset;
+            enemyScript.sideOffset = xPos;
+            enemyScript.SetInitialDistanceOffset(indexInGroup * spacingZ);
         }
     }
 
