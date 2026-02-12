@@ -19,25 +19,37 @@ public class UnitController : MonoBehaviour
     public string enemyTag = "Enemy";
     [HideInInspector] public Transform targetEnemy;
     protected Health health;
-    
+
     protected NavMeshAgent agent;
     protected State currentState = State.Idle;
 
     [HideInInspector] public GameObject spawn;
+    protected Vector3 spawnPosition;
+    protected SplineContainer mySpline;
     protected Vector3 wanderPoint;
     protected bool wanderPointSet = false;
     protected bool canAttack = true;
 
-    
+
     protected virtual void Awake()
     {
         health = GetComponent<Health>();
     }
-    
+
     protected virtual void Start()
     {
         if (!agent) agent = GetComponent<NavMeshAgent>();
         if (!animator) animator = GetComponent<Animator>();
+
+        if (spawn != null)
+        {
+            spawnPosition = spawn.transform.position;
+            Building b = spawn.GetComponent<Building>();
+            if (b != null)
+                mySpline = b.spline;
+        }
+
+
 
     }
 
@@ -65,8 +77,7 @@ public class UnitController : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             Enemy e = enemy.GetComponent<Enemy>();
-            Building b = spawn.GetComponent<Building>();
-            if (e.splineContainer == b.spline)
+            if (e.splineContainer == mySpline)
             {
                 float dist = Vector3.Distance(transform.position, enemy.transform.position);
                 if (dist < closestDist)
@@ -89,7 +100,7 @@ public class UnitController : MonoBehaviour
             currentState = State.Idle;
         }
     }
-    
+
     void OnEnable()
     {
         if (health != null) health.OnDeath.AddListener(Die);
@@ -122,7 +133,7 @@ public class UnitController : MonoBehaviour
     {
         float randomX = Random.Range(-wanderRange, wanderRange);
         float randomZ = Random.Range(-wanderRange, wanderRange);
-        Vector3 randomPoint = spawn.transform.position + new Vector3(randomX, 0, randomZ);
+        Vector3 randomPoint = spawnPosition + new Vector3(randomX, 0, randomZ);
 
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomPoint, out hit, 2f, NavMesh.AllAreas))
@@ -153,7 +164,7 @@ public class UnitController : MonoBehaviour
 
         transform.LookAt(new Vector3(targetEnemy.position.x, transform.position.y, targetEnemy.position.z));
 
-        
+
 
     }
 
@@ -161,14 +172,16 @@ public class UnitController : MonoBehaviour
 
     protected virtual void Die()
     {
-        SpawnBuilding sb = spawn.GetComponent<SpawnBuilding>();
+        if (spawn != null)
+        {
+            SpawnBuilding sb = spawn.GetComponent<SpawnBuilding>();
+            if (sb != null)
+                sb.limit++;
+        }
 
-        if (sb != null)
-            sb.limit++;
-        
         Destroy(gameObject);
     }
-    
+
     protected void UpdateAnimatorParameters()
     {
         Vector3 velocity = agent.velocity;
