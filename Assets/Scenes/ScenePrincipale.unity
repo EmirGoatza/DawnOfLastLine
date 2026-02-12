@@ -1517,7 +1517,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdcaba9f9f6e2554ca031cc82e3edd88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
-  currentPhase: 1
   currentWave: 0
   groupsInWave:
   - count: 2
@@ -1656,7 +1655,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdcaba9f9f6e2554ca031cc82e3edd88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  currentPhase: 1
   currentWave: 0
   groupsInWave:
   - count: 10
@@ -2904,6 +2902,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60bc21f977ff8b248a4f70ea5640c18a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  currentPhase: 0
+  preparationDuration: 10
+  lanes:
+  - {fileID: 585664960}
+  - {fileID: 863203270}
+  player: {fileID: 1664687021}
+  buildingTransform: {fileID: 1078200180}
+  activationDistance: 10
   mainBuilding: {fileID: 1078200175}
   restartDelay: 5
   gameOverUI: {fileID: 1893961663}

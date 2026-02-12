@@ -121,7 +121,7 @@ public abstract class Building : MonoBehaviour
 
         if (Mathf.Floor(currentCountdown) != Mathf.Floor(lastCountdown))
         {
-            Debug.Log($"Countdown: {currentCountdown:F2}, Trigger: {trigger}");
+            // Debug.Log($"Countdown: {currentCountdown:F2}, Trigger: {trigger}");
             lastCountdown = currentCountdown;
         }
 
