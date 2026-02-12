@@ -1379,7 +1379,7 @@ MonoBehaviour:
   laneWidth: 10
   spacingZ: 0.3
   waveText: {fileID: 199782688}
-  enemyPrefab: {fileID: 8465884811639949209, guid: 58b4643dd9c5b2c41816770cf0bada3d, type: 3}
+  enemyPrefab: {fileID: 1797574016506089070, guid: cea43f7ba41133e4cbf529b14e3f9810, type: 3}
   spawnPoint: {fileID: 585664959}
   splineContainer: {fileID: 979123844}
 --- !u!1 &591566933
@@ -1728,7 +1728,7 @@ MonoBehaviour:
   laneWidth: 10
   spacingZ: 3
   waveText: {fileID: 199782688}
-  enemyPrefab: {fileID: 8465884811639949209, guid: 58b4643dd9c5b2c41816770cf0bada3d, type: 3}
+  enemyPrefab: {fileID: 1797574016506089070, guid: cea43f7ba41133e4cbf529b14e3f9810, type: 3}
   spawnPoint: {fileID: 863203269}
   splineContainer: {fileID: 1116427517}
 --- !u!1 &894311623
