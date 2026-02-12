@@ -35,6 +35,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text preparationText;
     [SerializeField] private float blinkSpeed = 0.5f;
 
+
+    [Header("Augment Selection")]
+    [SerializeField] private AugmentSelectionUI augmentUI;
+
     void Awake()
     {
         Instance = this;
@@ -42,6 +46,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        preparationText.text = "Préparez-vous contre la horde...\nDébut dans " + Mathf.CeilToInt(preparationDuration) + " secondes";
         StartPreparationPhase();
     }
 
@@ -59,6 +64,9 @@ public class GameManager : MonoBehaviour
 
     void HandlePreparation()
     {
+        // Si le menu d'augmentation est ouvert, on ne fait rien d'autre ici
+        if (augmentUI.gameObject.activeSelf) return;
+
         preparationTimer -= Time.deltaTime;
 
         bool playerNear =
@@ -107,6 +115,8 @@ public class GameManager : MonoBehaviour
         {
             preparationText.gameObject.SetActive(true);
         }
+
+        augmentUI.Show();
     }
 
     void StartAttackPhase()
