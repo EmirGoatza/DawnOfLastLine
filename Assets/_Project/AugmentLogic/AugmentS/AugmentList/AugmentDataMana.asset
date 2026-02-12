@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AugmentData
   augmentName: Augment de mana
   description: Ceci boost le mana de 20
+  icon: {fileID: 21300000, guid: 404e3b1b21226164eb3ec38eccdf8811, type: 3}
   effect: {fileID: 11400000, guid: 734fbd7200a8e9b4ab3ceca16cdb5e7e, type: 2}

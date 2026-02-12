@@ -5,6 +5,6 @@ public class AugmentData : ScriptableObject
 {
     public string augmentName;
     public string description;
-
+    public Sprite icon;
     public AugmentEffect effect;
 }
