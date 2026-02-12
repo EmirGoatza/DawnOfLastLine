@@ -12,7 +12,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float rotationSpeed = 10f;
 
 
-    public enum EnemyState { FollowingSpline, ChasingTarget, ReturningToSpline }
+    public enum EnemyState { FollowingSpline, ChasingTarget, ReturningToSpline, Attacking }
     
     [Header("États")]
     [SerializeField] private EnemyState currentState = EnemyState.FollowingSpline;
@@ -125,6 +125,36 @@ public abstract class Enemy : MonoBehaviour
                 CheckForTargets();
                 ReturnToSplineLogic();
                 break;
+            case EnemyState.Attacking:
+                RotateTowardsTarget(); 
+                break;
+        }
+    }
+
+    public void SetAttackingState(bool isAttacking)
+    {
+        if (isAttacking)
+        {
+            currentState = EnemyState.Attacking;
+        }
+        else
+        {
+            if (currentTarget != null) currentState = EnemyState.ChasingTarget;
+            else currentState = EnemyState.ReturningToSpline;
+        }
+    }
+
+    protected void RotateTowardsTarget()
+    {
+        if (currentTarget == null) return;
+
+        Vector3 direction = (currentTarget.position - transform.position).normalized;
+        direction.y = 0;
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
         }
     }
 
@@ -238,6 +268,8 @@ public abstract class Enemy : MonoBehaviour
             // On vise le point le plus proche sur le bord
             destination = targetCollider.ClosestPoint(transform.position);
         }
+
+        RotateTowardsTarget();
         
         // Calcul de la distance à la surface pour savoir s'il faut abandonner ou attaquer
         float distanceToSurface = Vector3.Distance(transform.position, destination);
