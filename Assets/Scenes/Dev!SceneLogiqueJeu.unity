@@ -165,9 +165,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
   currentPhase: 1
   currentWave: 0
-  spawnInterval: 2
-  enemiesPerWave: 20
-  laneWidth: 2
+  groupsInWave:
+  - count: 3
+    delayAfter: 1
+  - count: 10
+    delayAfter: 3
+  - count: 3
+    delayAfter: 0
+  laneWidth: 10
+  spacingZ: 0.3
   waveText: {fileID: 1510248372}
   enemyPrefab: {fileID: 8465884811639949209, guid: 58b4643dd9c5b2c41816770cf0bada3d, type: 3}
   spawnPoint: {fileID: 62943581}
@@ -2457,9 +2463,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   currentPhase: 1
   currentWave: 0
-  spawnInterval: 2
-  enemiesPerWave: 20
+  groupsInWave:
+  - count: 0
+    delayAfter: 0
   laneWidth: 2
+  spacingZ: 3
   waveText: {fileID: 1510248372}
   enemyPrefab: {fileID: 8465884811639949209, guid: 58b4643dd9c5b2c41816770cf0bada3d, type: 3}
   spawnPoint: {fileID: 1804234930}

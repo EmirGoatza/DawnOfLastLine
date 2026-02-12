@@ -131,6 +131,7 @@ MonoBehaviour:
   enemyName: 
   moveSpeed: 5
   moneyDropped: 10
+  rotationSpeed: 2
   currentState: 0
   detectionRange: 20
   allyTag: Ally

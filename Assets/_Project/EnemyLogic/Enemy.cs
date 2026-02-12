@@ -9,6 +9,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected string enemyName;
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float moneyDropped = 10f;
+    [SerializeField] protected float rotationSpeed = 10f;
 
 
     public enum EnemyState { FollowingSpline, ChasingTarget, ReturningToSpline }
@@ -55,6 +56,12 @@ public abstract class Enemy : MonoBehaviour
     public void setContainerSpline(SplineContainer container)
     {
         splineContainer = container;
+    }
+
+    public void SetInitialDistanceOffset(float offset)
+    {
+        // On met une distance négative pour créer un retard
+        distanceTraveled = -offset;
     }
 
     void OnEnable()
@@ -127,7 +134,8 @@ public abstract class Enemy : MonoBehaviour
         if (splineContainer == null) return;
         
         distanceTraveled += moveSpeed * Time.deltaTime;
-        float t = distanceTraveled / splineContainer.CalculateLength();
+        float actualDistance = Mathf.Max(0, distanceTraveled); // si la distance est négative, l'ennemi reste bloqué au point 0 (le départ) en attendant son tour (pour en faire spown pleins pas sur de garder).
+        float t = actualDistance / splineContainer.CalculateLength();
 
         // Si on a atteint la fin de la spline, on meurt
         if (t >= 1f) { Die(); return; }
@@ -135,10 +143,22 @@ public abstract class Enemy : MonoBehaviour
         // Calcul de la position sur la spline avec le décalage latéral
         Vector3 pos = (Vector3)splineContainer.EvaluatePosition(t);
         Vector3 tangent = (Vector3)splineContainer.EvaluateTangent(t);
-        Vector3 sideDirection = Vector3.Cross(tangent, Vector3.up).normalized;
 
+        Vector3 sideDirection = Vector3.Cross(tangent, Vector3.up).normalized;
         transform.position = pos + (sideDirection * sideOffset);
-        transform.rotation = Quaternion.LookRotation(tangent);
+
+        if (tangent != Vector3.zero)
+        {
+            // On calcule la rotation cible
+            Quaternion targetRotation = Quaternion.LookRotation(tangent);
+
+            // On tourne progressivement vers cette cible
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation, 
+                targetRotation, 
+                Time.deltaTime * rotationSpeed
+            );
+        }
     }
 
     // Détection de perso à attaquer
