@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BasicEnemy : Enemy
@@ -5,8 +6,10 @@ public class BasicEnemy : Enemy
     [Header("Combat - Basique")]
     [SerializeField] private float attackRange = 2f;
     [SerializeField] private float attackCooldown = 1.5f;
+    [SerializeField] private float attackStopDuration = 1.5f;
     [SerializeField] protected int damage = 20;
     private float nextAttackTime;
+    private EnemyAnimator enemyAnimator;
 
     protected override float StoppingDistance => attackRange - 0.2f;
 
@@ -16,6 +19,8 @@ public class BasicEnemy : Enemy
 
         enemyName = "Soldat de base";
         base.health.MaxHealth = 50f;
+
+        enemyAnimator = GetComponent<EnemyAnimator>();
     }
 
     protected override void Update()
@@ -43,21 +48,35 @@ public class BasicEnemy : Enemy
 
     private void TryAttack()
     {
-    if (Time.time >= nextAttackTime)
-    {
-        // On essaie de récupérer le script Health sur la cible actuelle
-        Health targetHealth = currentTarget.GetComponent<Health>();
+        if (Time.time >= nextAttackTime)
+        {
+            if (enemyAnimator != null)
+            {
+                enemyAnimator.PlayAttack();
+            }
 
+            StartCoroutine(PerformAttackRoutine());
+
+            nextAttackTime = Time.time + attackCooldown;
+        }
+    }
+
+    private IEnumerator PerformAttackRoutine()
+    {
+        base.SetAttackingState(true);
+
+        yield return new WaitForSeconds(0.2f); 
+
+        Health targetHealth = currentTarget != null ? currentTarget.GetComponent<Health>() : null;
         if (targetHealth != null && !targetHealth.IsDead)
         {
-            // On inflige les dégâts
             targetHealth.TakeDamage(damage);
-            
-            Debug.Log($"<color=red>COMBAT :</color> {enemyName} inflige {damage} dégâts à {currentTarget.name} !");
+            Debug.Log($"<color=red>COMBAT :</color> {enemyName} inflige {damage} dégâts !");
         }
 
-        nextAttackTime = Time.time + attackCooldown;
-    }
+        yield return new WaitForSeconds(attackStopDuration - 0.2f);
+
+        base.SetAttackingState(false);
     }
 
     protected override void Die()
