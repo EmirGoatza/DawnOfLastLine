@@ -833,6 +833,7 @@ MonoBehaviour:
   enemyName: 
   moveSpeed: 5
   moneyDropped: 10
+  rotationSpeed: 10
   currentState: 0
   detectionRange: 20
   allyTag: Ally
@@ -841,7 +842,7 @@ MonoBehaviour:
   attackRange: 2
   attackCooldown: 2
   attackStopDuration: 2
-  damage: 0
+  damage: 10
 --- !u!114 &8351868733521863052
 MonoBehaviour:
   m_ObjectHideFlags: 0

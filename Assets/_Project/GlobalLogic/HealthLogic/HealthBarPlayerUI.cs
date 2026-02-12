@@ -5,15 +5,13 @@ public class PlayerHealthBarUI : MonoBehaviour
 {
     [SerializeField] private Slider slider;
     [SerializeField] private Health playerHealth;
+    [SerializeField] private Image fillImage;
 
     void Start()
     {
         if (playerHealth != null)
         {
-            // Initialisation
             UpdateSlider(playerHealth.CurrentHealth, playerHealth.MaxHealth);
-            
-            // On s'abonne à l'événement
             playerHealth.OnHealthChanged.AddListener(UpdateSlider);
         }
     }
@@ -22,6 +20,14 @@ public class PlayerHealthBarUI : MonoBehaviour
     {
         slider.maxValue = max;
         slider.value = current;
+
+        UpdateColor(current / max);
+    }
+
+    private void UpdateColor(float percent)
+    {   
+        Color color = Color.Lerp(Color.red, Color.green, percent);
+        fillImage.color = color;
     }
 
     void OnDestroy()

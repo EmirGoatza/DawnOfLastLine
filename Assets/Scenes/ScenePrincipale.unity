@@ -1159,6 +1159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthBarUI
   slider: {fileID: 306407779}
   playerHealth: {fileID: 1664687027}
+  fillImage: {fileID: 591566935}
 --- !u!1 &343973853 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 406116291149891021, guid: 2bbbaa195caef594d8d91135965894b9, type: 3}
