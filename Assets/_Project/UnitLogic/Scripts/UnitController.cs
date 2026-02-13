@@ -151,7 +151,13 @@ public class UnitController : MonoBehaviour
             return;
         }
 
-        agent.SetDestination(targetEnemy.position);
+        // Calculate direction to enemy
+        Vector3 directionToEnemy = (targetEnemy.position - transform.position).normalized;
+    
+        // Stop at 80% of attack range away from the enemy
+        Vector3 targetPosition = targetEnemy.position - directionToEnemy * (attackRange * 0.8f);
+    
+        agent.SetDestination(targetPosition);
     }
 
     protected virtual void Attack()
