@@ -277,7 +277,11 @@ public abstract class Enemy : MonoBehaviour
         // On ne bouge que si on est plus loin que la distance d'arrêt
         if (distanceToSurface > StoppingDistance)
         {
-            transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
+            // On calcule le prochain point de mouvement
+            Vector3 nextPos = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
+
+            // On garde transform.position.y tel quel pour laisser la gravité du Rigidbody 
+            transform.position = new Vector3(nextPos.x, transform.position.y, nextPos.z);
         }
 
         if (distanceToSurface > detectionRange * 1.5f)
