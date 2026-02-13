@@ -426,7 +426,7 @@ MonoBehaviour:
   wanderRange: 10
   detectionRange: 25
   attackRange: 4
-  attackCooldown: 3
+  attackCooldown: 5
   animator: {fileID: 0}
   enemyTag: Enemy
   targetEnemy: {fileID: 0}
@@ -436,7 +436,7 @@ MonoBehaviour:
   shockvfxPrefab: {fileID: 9177886612219991525, guid: f90fc7acf1ef2fa4c85896a9afc17028, type: 3}
   watervfxPrefab: {fileID: 856368647163548680, guid: 724d151229932ba47931fcc83c083470, type: 3}
   slashSpawnPoint: {fileID: 9176530468437422987}
-  damage: 20
+  damage: 5
 --- !u!195 &8272614603943484943
 NavMeshAgent:
   m_ObjectHideFlags: 0
