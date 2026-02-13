@@ -1660,7 +1660,6 @@ MonoBehaviour:
     delayAfter: 1
   laneWidth: 10
   spacingZ: 0.3
-  waveText: {fileID: 199782688}
   enemyPrefab: {fileID: 1797574016506089070, guid: cea43f7ba41133e4cbf529b14e3f9810, type: 3}
   spawnPoint: {fileID: 585664959}
   splineContainer: {fileID: 979123844}
@@ -1998,7 +1997,6 @@ MonoBehaviour:
     delayAfter: 2
   laneWidth: 10
   spacingZ: 1
-  waveText: {fileID: 199782688}
   enemyPrefab: {fileID: 1797574016506089070, guid: cea43f7ba41133e4cbf529b14e3f9810, type: 3}
   spawnPoint: {fileID: 863203269}
   splineContainer: {fileID: 1116427517}
@@ -3501,6 +3499,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   currentPhase: 0
   preparationDuration: 10
+  waveDisplayUI: {fileID: 199782688}
+  currentWave: 0
   lanes:
   - {fileID: 585664960}
   - {fileID: 863203270}
@@ -3836,7 +3836,7 @@ MonoBehaviour:
   jumpCost: 1
   dashCost: 1
   canMove: 1
-  animator: {fileID: 0}
+  animator: {fileID: 1664687030}
 --- !u!143 &1664687025
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3930,6 +3930,11 @@ MonoBehaviour:
   staminaRegen: 0.5
   barPrefab: {fileID: 8450932208693677547, guid: 61587be752506d64d863df0633a7c563, type: 3}
   barContainer: {fileID: 366846550}
+--- !u!95 &1664687030 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: ec57a7c62e93bf34eb30016736ac1a88, type: 3}
+  m_PrefabInstance: {fileID: 1934533212}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1810419376 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7133663127613832839, guid: 2bbbaa195caef594d8d91135965894b9, type: 3}
