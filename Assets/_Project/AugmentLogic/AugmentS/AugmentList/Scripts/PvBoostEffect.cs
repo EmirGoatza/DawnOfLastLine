@@ -7,8 +7,11 @@ public class PvBoostEffect : AugmentEffect
 
     public override void Apply(GameObject player)
     {
-        player.GetComponent<Health>().MaxHealth += bonusPv;
-        player.GetComponent<Health>().CurrentHealth += bonusPv;
-        Debug.Log($"PV augmentés ! Nouveau maxHealth : {player.GetComponent<Health>().MaxHealth}");
+        Health h = player.GetComponent<Health>();
+        if (h != null)
+        {
+            h.MaxHealth += bonusPv;
+            h.CurrentHealth += bonusPv;
+        }
     }
 }
