@@ -21,6 +21,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private float detectionRange = 5f;
     protected virtual float StoppingDistance => 0f;
     [SerializeField] private string allyTag = "Ally";
+    [SerializeField] private string buildingTag = "Building";
     protected Transform currentTarget;
 
     [Header("Vfx & Formation")]
@@ -209,7 +210,6 @@ public abstract class Enemy : MonoBehaviour
         }
 
         // On cherche l'objet le plus proche avec le tag Ally
-
         if (bestTarget == null) {
             GameObject[] allies = GameObject.FindGameObjectsWithTag(allyTag);
             foreach (GameObject ally in allies)
@@ -228,6 +228,27 @@ public abstract class Enemy : MonoBehaviour
                 {
                     closestDistance = distToAlly;
                     bestTarget = ally.transform;
+                }
+            }
+        }
+
+        // En troisième priorité, on cherche les bâtiments (sauf si on a déjà trouvé un joueur ou un allié à attaquer)
+        if (bestTarget == null) {
+            // On cherche les objets avec le tag "Building"
+            GameObject[] buildings = GameObject.FindGameObjectsWithTag(buildingTag);
+            foreach (GameObject bld in buildings)
+            {
+                Collider bldCollider = bld.GetComponent<Collider>();
+                Vector3 targetPoint = (bldCollider != null) 
+                ? bldCollider.ClosestPoint(transform.position) 
+                : bld.transform.position;
+
+                float distToBld = Vector3.Distance(transform.position, targetPoint);
+
+                if (distToBld < closestDistance)
+                {
+                    closestDistance = distToBld;
+                    bestTarget = bld.transform;
                 }
             }
         }
