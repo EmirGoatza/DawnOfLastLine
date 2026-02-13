@@ -74,12 +74,13 @@ public abstract class Building : MonoBehaviour
 
                 SplineUtility.GetNearestPoint(
                     s.Spline,
-                    transform.position,
+                    s.transform.InverseTransformPoint(transform.position),
                     out nearestPoint,
                     out t
                 );
 
-                float distance = Vector3.Distance(transform.position, nearestPoint);
+                Vector3 worldNearest = s.transform.TransformPoint(nearestPoint);
+                float distance = Vector3.Distance(transform.position, worldNearest);
 
                 if (distance < closestDistance)
                 {
