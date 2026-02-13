@@ -3454,7 +3454,6 @@ MonoBehaviour:
     delayAfter: 2
   laneWidth: 10
   spacingZ: 0.3
-  waveText: {fileID: 1551731578}
   enemyPrefab: {fileID: 1797574016506089070, guid: cea43f7ba41133e4cbf529b14e3f9810, type: 3}
   spawnPoint: {fileID: 1376195973}
   splineContainer: {fileID: 653733479}
@@ -3651,6 +3650,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   currentPhase: 0
   preparationDuration: 10
+  waveDisplayUI: {fileID: 1551731578}
+  currentWave: 0
   lanes:
   - {fileID: 1376195974}
   - {fileID: 1984458124}
@@ -4765,7 +4766,6 @@ MonoBehaviour:
     delayAfter: 2
   laneWidth: 10
   spacingZ: 1
-  waveText: {fileID: 1551731578}
   enemyPrefab: {fileID: 1797574016506089070, guid: cea43f7ba41133e4cbf529b14e3f9810, type: 3}
   spawnPoint: {fileID: 1984458123}
   splineContainer: {fileID: 1986296704}
