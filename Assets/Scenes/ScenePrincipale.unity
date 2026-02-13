@@ -1650,12 +1650,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
   currentWave: 0
   groupsInWave:
-  - count: 2
-    delayAfter: 2
-  - count: 2
-    delayAfter: 2
-  - count: 2
-    delayAfter: 2
+  - count: 10
+    delayAfter: 1
+  - count: 10
+    delayAfter: 1
+  - count: 10
+    delayAfter: 1
+  - count: 10
+    delayAfter: 1
   laneWidth: 10
   spacingZ: 0.3
   waveText: {fileID: 199782688}
@@ -2277,7 +2279,7 @@ GameObject:
   - component: {fileID: 979123843}
   - component: {fileID: 979123844}
   m_Layer: 0
-  m_Name: Spline
+  m_Name: Spline Lane 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2970,7 +2972,7 @@ GameObject:
   - component: {fileID: 1116427516}
   - component: {fileID: 1116427517}
   m_Layer: 0
-  m_Name: Spline
+  m_Name: Spline Lane 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
