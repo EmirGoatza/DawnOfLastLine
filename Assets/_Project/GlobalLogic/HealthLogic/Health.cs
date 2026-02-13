@@ -39,6 +39,10 @@ public class Health : MonoBehaviour
         {
             gameObject.AddComponent<HealthDamagePopup>();
         }
+        if (GetComponent<HealthAddedPopup>() == null)
+        {
+            gameObject.AddComponent<HealthAddedPopup>();
+        }
     }
 
     public void TakeDamage(float amount)
