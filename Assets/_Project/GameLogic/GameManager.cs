@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Wave Management")]
     [SerializeField] private float preparationDuration = 10f;
+    [SerializeField] private TMP_Text waveDisplayUI;
+    public int currentWave = 0;
     private float preparationTimer;
 
     [SerializeField] private List<WaveManager> lanes;
@@ -121,13 +123,19 @@ public class GameManager : MonoBehaviour
 
     void StartAttackPhase()
     {
+        currentWave++;
         currentPhase = GamePhase.Attack;
+
+        if (waveDisplayUI != null)
+        {
+            waveDisplayUI.text = "Manche : " + currentWave;
+        }
 
         if (preparationText) { preparationText.gameObject.SetActive(false); }
 
         foreach (var lane in lanes)
         {
-            lane.StartWave();
+            lane.StartWave(currentWave);
         }
     }
 

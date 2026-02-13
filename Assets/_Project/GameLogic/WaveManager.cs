@@ -23,32 +23,26 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private float laneWidth = 5f;
     [SerializeField] private float spacingZ = 3f;
 
-    [Header("UI References")]
-    [SerializeField] private TextMeshProUGUI waveText;
 
     [Header("Ennemi References")]
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private SplineContainer splineContainer;
 
-    public void StartWave()
+    public void StartWave(int waveNumber)
     {
-        currentWave++;
         enemiesSpawnedThisWave = 0;
 
-        if (waveText)
-            waveText.text = "Manche : " + currentWave;
-
-        StartCoroutine(SpawnWaveRoutine());
+        StartCoroutine(SpawnWaveRoutine(waveNumber));
     }
 
-    IEnumerator SpawnWaveRoutine()
+    IEnumerator SpawnWaveRoutine(int waveNumber)
     {
         foreach (EnemyGroup group in groupsInWave)
         {
             for (int i = 0; i < group.count; i++)
             {
-                SpawnEnemy(i, group.count);
+                SpawnEnemy(i, group.count, waveNumber);
                 enemiesSpawnedThisWave++;
             }
 
@@ -56,7 +50,7 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    void SpawnEnemy(int indexInGroup, int groupSize)
+    void SpawnEnemy(int indexInGroup, int groupSize, int waveNumber)
     {
         if (enemyPrefab == null || spawnPoint == null)
             return;
@@ -78,7 +72,7 @@ public class WaveManager : MonoBehaviour
         string laneName = transform.parent.name;
 
         enemyInstance.name =
-            $"Enemy_{laneName}_Wave{currentWave}_{enemiesSpawnedThisWave}";
+            $"Enemy_{laneName}_Wave{waveNumber}_{enemiesSpawnedThisWave}";
 
         Enemy enemyScript = enemyInstance.GetComponent<Enemy>();
         enemyScript.setContainerSpline(splineContainer);
