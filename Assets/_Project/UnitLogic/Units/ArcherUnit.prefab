@@ -1312,7 +1312,7 @@ MonoBehaviour:
   arrowSpeed: 50
   maxAttackDistance: 10
   pivot: {fileID: 2500554794310765406}
-  aimOffset: {x: 0, y: 0, z: 0}
+  aimOffset: {x: 0, y: 1, z: 0}
   isAiming: 0
 --- !u!114 &5575464664133407063
 MonoBehaviour:
