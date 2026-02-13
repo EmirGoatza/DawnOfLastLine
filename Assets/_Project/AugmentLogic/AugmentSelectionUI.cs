@@ -17,17 +17,21 @@ public class AugmentSelectionUI : MonoBehaviour
     private float lastInputTime;
     private bool isActive = false;
 
-    void Awake()
+    private void LoadAllPrefabs()
     {
+        if (cardPrefabs.Count > 0) return; // Déjà chargé
+
         GameObject[] loadedPrefabs = Resources.LoadAll<GameObject>("Augments");
         cardPrefabs.AddRange(loadedPrefabs);
+
         if (cardPrefabs.Count == 0)
         {
             Debug.LogError("Aucun prefab d'Augment trouvé dans Resources/Augments !");
         }
-        
-        Debug.Log($"Nombre d'Augments trouvés: {cardPrefabs.Count}");
-
+        else
+        {
+            Debug.Log($"Nombre d'Augments chargés : {cardPrefabs.Count}");
+        }
     }
 
     void Update()
@@ -40,6 +44,11 @@ public class AugmentSelectionUI : MonoBehaviour
 
     public void Show()
     {
+        Debug.Log("Affichage de l'UI de sélection d'Augment");
+        if (cardPrefabs.Count == 0)
+        {
+            LoadAllPrefabs();
+        }
         GenerateCards();
 
         gameObject.SetActive(true);
