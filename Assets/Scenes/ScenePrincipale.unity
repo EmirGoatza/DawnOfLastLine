@@ -625,6 +625,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpawnArcher
       objectReference: {fileID: 0}
+    - target: {fileID: 6823125488924625524, guid: 2bbbaa195caef594d8d91135965894b9, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4100,7 +4104,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6823125488924625524, guid: 2bbbaa195caef594d8d91135965894b9, type: 3}
       propertyPath: m_TagString
-      value: Ally
+      value: Building
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
