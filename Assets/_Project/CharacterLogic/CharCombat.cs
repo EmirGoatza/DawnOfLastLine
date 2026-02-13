@@ -5,8 +5,7 @@ using System.Collections;
 public class PlayerCombat : MonoBehaviour
 {
     [Header("Stats")]
-    public int baseDamage = 20;
-    public float heavyMultiplier = 2.0f;
+    public PlayerStats combatStats = new PlayerStats();
 
     [Header("Combo Settings")]
     public float comboWindowDuration = 0.8f; 
@@ -37,6 +36,8 @@ public class PlayerCombat : MonoBehaviour
     private const string ANIM_LIGHT1 = "AttackA";
     private const string ANIM_LIGHT2 = "AttackB";
     private const string ANIM_HEAVY = "AttackC";
+
+
 
     void Start()
     {
@@ -83,7 +84,7 @@ public class PlayerCombat : MonoBehaviour
 
         FaceTarget();
 
-        int currentDamage = baseDamage;
+        int currentDamage = combatStats.baseDamage;
         float currentImpactTime = lightImpactTime;
         
         if (step == 1)
@@ -97,7 +98,7 @@ public class PlayerCombat : MonoBehaviour
         else if (step == 3)
         {
             anim.SetTrigger(ANIM_HEAVY);
-            currentDamage = Mathf.RoundToInt(baseDamage * heavyMultiplier);
+            currentDamage = Mathf.RoundToInt(combatStats.baseDamage * combatStats.heavyMultiplier);
             currentImpactTime = heavyImpactTime;
         }
 

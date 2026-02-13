@@ -11,8 +11,8 @@ public class DamageBoostEffect : AugmentEffect
 
         if (combat != null)
         {
-            combat.baseDamage += bonusDamage;
-            Debug.Log($"Dégâts augmentés ! Nouveau baseDamage : {combat.baseDamage}");
+            combat.combatStats.baseDamage += bonusDamage;
+            Debug.Log($"Dégâts augmentés ! Nouveau baseDamage : {combat.combatStats.baseDamage}");
         }
     }
 }

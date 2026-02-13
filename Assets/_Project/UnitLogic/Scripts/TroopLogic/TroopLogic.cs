@@ -145,7 +145,7 @@ public class TroopLogic : UnitController
             SlashHitbox hitbox = vfx.GetComponent<SlashHitbox>();
             if (hitbox != null)
             {
-                hitbox.Setup(damage);
+                hitbox.Setup(damage, null, null);
             }
             else
             {
