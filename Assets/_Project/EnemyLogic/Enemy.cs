@@ -87,7 +87,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
-        Debug.Log($"{enemyName} est mort !");
+        // Debug.Log($"{enemyName} est mort !");
         if (playerMoney != null)
         {
             playerMoney.Add(CalculateMoneyDropRandomized());

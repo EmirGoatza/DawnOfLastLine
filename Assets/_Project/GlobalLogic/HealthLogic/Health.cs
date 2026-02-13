@@ -53,7 +53,7 @@ public class Health : MonoBehaviour
             currentHealth = 0;
             IsDead = true;
 
-            Debug.Log($"{gameObject.name} meurt !");
+            // Debug.Log($"{gameObject.name} meurt !");
             // On prévient tous ceux qui écoutent
             OnDeath?.Invoke();
         }
