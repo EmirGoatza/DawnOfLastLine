@@ -20,6 +20,7 @@ public abstract class Enemy : MonoBehaviour
     [Header("Détection")]
     [SerializeField] private float detectionRange = 5f;
     protected virtual float StoppingDistance => 0f;
+    [SerializeField] private float avoidanceDistance = 1.2f; // Distance à laquelle il s'arrête s'il y a un pote devant
     [SerializeField] private string allyTag = "Ally";
     [SerializeField] private string buildingTag = "Building";
     protected Transform currentTarget;
@@ -30,6 +31,8 @@ public abstract class Enemy : MonoBehaviour
     [Header("Spline")]
     [SerializeField] public SplineContainer splineContainer;
     private float distanceTraveled = 0f;
+    
+    [SerializeField] private LayerMask enemyLayer; // pour ne détecter que les ennemis
 
     protected Health health;
 
@@ -296,7 +299,7 @@ public abstract class Enemy : MonoBehaviour
         float distanceToSurface = Vector3.Distance(transform.position, destination);
 
         // On ne bouge que si on est plus loin que la distance d'arrêt
-        if (distanceToSurface > StoppingDistance)
+        if (distanceToSurface > StoppingDistance && !IsPathBlocked())
         {
             // On calcule le prochain point de mouvement
             Vector3 nextPos = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
@@ -345,5 +348,22 @@ public abstract class Enemy : MonoBehaviour
             
             currentState = EnemyState.FollowingSpline;
         }
+    }
+
+    private bool IsPathBlocked()
+    {
+        // On lance un rayon vers l'avant (à hauteur de taille pour ne pas détecter le sol)
+        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, transform.forward);
+        
+        if (Physics.Raycast(ray, out RaycastHit hit, avoidanceDistance))
+        {
+            // Si on touche quelque chose qui n'est pas notre cible actuelle
+            // et que c'est un autre ennemi (ou un allié qui bloque)
+            if (hit.transform != currentTarget && (hit.transform.CompareTag("Enemy") || hit.transform.CompareTag(allyTag)))
+            {
+                return true; // Voie bloquée
+            }
+        }
+        return false;
     }
 }
