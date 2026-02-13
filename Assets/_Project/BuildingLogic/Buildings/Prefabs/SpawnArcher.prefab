@@ -222,9 +222,10 @@ GameObject:
   - component: {fileID: 2840486712364875821}
   - component: {fileID: 6715086831514710429}
   - component: {fileID: -6514562071535121370}
+  - component: {fileID: 487955321882384982}
   m_Layer: 0
   m_Name: SpawnArcher
-  m_TagString: Ally
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -291,6 +292,28 @@ MonoBehaviour:
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &487955321882384982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6823125488924625524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 750c33e7cf647b24ea053680d67ff541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealBuilding
+  level1model: {fileID: 0}
+  level2model: {fileID: 0}
+  level3model: {fileID: 0}
+  countdown: 0
+  playerTransform: {fileID: 0}
+  actOnTimer: 0
+  distance: 0
+  spline: {fileID: 0}
+  healAmount: 10
+  healCost: 20
 --- !u!1 &8845728030477588233
 GameObject:
   m_ObjectHideFlags: 0

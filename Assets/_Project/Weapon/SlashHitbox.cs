@@ -47,7 +47,7 @@ public class SlashHitbox : MonoBehaviour
         {
             enemyHealth.TakeDamage(damageAmount);
             hitEnemies.Add(other.gameObject);
-            Debug.Log($"[TOUCHÉ] {other.name} a pris {damageAmount} dégâts !");
+            // Debug.Log($"[TOUCHÉ] {other.name} a pris {damageAmount} dégâts !");
         }
     }
 
