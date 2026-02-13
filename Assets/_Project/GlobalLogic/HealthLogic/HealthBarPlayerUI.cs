@@ -26,7 +26,7 @@ public class PlayerHealthBarUI : MonoBehaviour
 
     private void UpdateColor(float percent)
     {   
-        Color color = Color.Lerp(Color.red, Color.green, percent);
+        Color color = Color.Lerp(Color.red, new Color(17f/255f, 164f/255f, 17f/255f), percent);
         fillImage.color = color;
     }
 
