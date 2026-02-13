@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: AugmentDataPv
   m_EditorClassIdentifier: Assembly-CSharp::AugmentData
   augmentName: Augment de pv
-  description: 'Augmente les pvs de 100 points '
+  description: Boost de pv de 100
   effect: {fileID: 11400000, guid: 1a5f4c663cde294479285b260ac4969a, type: 2}

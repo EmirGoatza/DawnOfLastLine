@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: AugmentDataStamina
   m_EditorClassIdentifier: Assembly-CSharp::AugmentData
   augmentName: Augment de stamina
-  description: Augmente la stamina de 1 point
-  icon: {fileID: 21300000, guid: 1d9d1a65fa2d01941a4c1fa429df77f9, type: 3}
+  description: Boost de stamina de 1
   effect: {fileID: 11400000, guid: 75aebaec3cd000c42afac857f72aeaa0, type: 2}
