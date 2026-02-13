@@ -1628,7 +1628,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
   currentWave: 0
-  groupsInWave: []
+  groupsInWave:
+  - count: 2
+    delayAfter: 0
   laneWidth: 10
   spacingZ: 0.3
   enemyPrefab: {fileID: 1797574016506089070, guid: cea43f7ba41133e4cbf529b14e3f9810, type: 3}
