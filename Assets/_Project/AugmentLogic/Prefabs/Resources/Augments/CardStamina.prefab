@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 96d5448c4703dbe40bb83280467544b8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: db4d792157d707c42ad7fad78fc3b243, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 5623779560405075413}
   - component: {fileID: 7148638622282528166}
   m_Layer: 5
-  m_Name: CardPv
+  m_Name: CardStamina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -266,7 +266,7 @@ MonoBehaviour:
   background: {fileID: 9208875681611438864}
   titleText: {fileID: 7102868943259424427}
   descriptionText: {fileID: 3320252609101716408}
-  augmentData: {fileID: 11400000, guid: 8b59dcf6d8f0c4047bfa2c1fdef192ee, type: 2}
+  augmentData: {fileID: 11400000, guid: 5394e4e1cb7308e4db8871ff0eb47076, type: 2}
 --- !u!1 &7935094028811227072
 GameObject:
   m_ObjectHideFlags: 0

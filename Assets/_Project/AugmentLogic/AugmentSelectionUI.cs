@@ -1,17 +1,34 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class AugmentSelectionUI : MonoBehaviour
 {
-    [SerializeField] private List<AugmentCardUI> cards;
-    [SerializeField] private float inputCooldown = 0.2f;
+    [Header("Setup")]
+    [SerializeField] private RectTransform augmentPanel;
+    private List<GameObject> cardPrefabs = new List<GameObject>(); // remplie automatiquement à partir du dossier "Resources/AugmentCards"
+    [SerializeField] private int numberOfCardsToSpawn = 3;
+    [SerializeField] private GameObject player;
+    [SerializeField] private float inputCooldown = 0f;
 
+    private List<AugmentCardUI> cards = new List<AugmentCardUI>();
     private int currentIndex = 0;
     private float lastInputTime;
     private bool isActive = false;
 
-    [SerializeField] private GameObject player;
+    void Awake()
+    {
+        GameObject[] loadedPrefabs = Resources.LoadAll<GameObject>("Augments");
+        cardPrefabs.AddRange(loadedPrefabs);
+        if (cardPrefabs.Count == 0)
+        {
+            Debug.LogError("Aucun prefab d'Augment trouvé dans Resources/Augments !");
+        }
+        
+        Debug.Log($"Nombre d'Augments trouvés: {cardPrefabs.Count}");
+
+    }
 
     void Update()
     {
@@ -23,11 +40,13 @@ public class AugmentSelectionUI : MonoBehaviour
 
     public void Show()
     {
+        GenerateCards();
+
         gameObject.SetActive(true);
         isActive = true;
         currentIndex = 0;
         HighlightCurrent();
-        Time.timeScale = 0f; // Pause le jeu
+        Time.timeScale = 0f;
     }
 
     public void Hide()
@@ -37,33 +56,58 @@ public class AugmentSelectionUI : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    private void GenerateCards()
+    {
+        // Nettoyage
+        foreach (Transform child in augmentPanel)
+        {
+            Destroy(child.gameObject);
+        }
+        cards.Clear();
+
+        // On pioche dans la liste chargée dynamiquement
+        List<GameObject> pool = new List<GameObject>(cardPrefabs);
+
+        for (int i = 0; i < numberOfCardsToSpawn; i++)
+        {
+            if (pool.Count == 0) break;
+
+            int randomIndex = Random.Range(0, pool.Count);
+            GameObject cardObj = Instantiate(pool[randomIndex], augmentPanel);
+
+            cardObj.transform.localScale = Vector3.one;
+
+            AugmentCardUI cardUI = cardObj.GetComponent<AugmentCardUI>();
+            if (cardUI != null)
+            {
+                cards.Add(cardUI);
+            }
+            pool.RemoveAt(randomIndex);
+        }
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(augmentPanel);
+    }
+
     void HandleNavigation()
     {
-        if (Time.unscaledTime - lastInputTime < inputCooldown)
-            return;
+        if (Time.unscaledTime - lastInputTime < inputCooldown) return;
 
-        float horizontal = 0f;
-
+        float move = 0f;
         if (Keyboard.current != null)
         {
-            if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
-                horizontal = 1;
-            if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
-                horizontal = -1;
+            if (Keyboard.current.rightArrowKey.wasPressedThisFrame) move = 1;
+            if (Keyboard.current.leftArrowKey.wasPressedThisFrame) move = -1;
         }
 
         if (Gamepad.current != null)
         {
             float stick = Gamepad.current.leftStick.x.ReadValue();
-            if (stick > 0.5f) horizontal = 1;
-            if (stick < -0.5f) horizontal = -1;
+            if (Mathf.Abs(stick) > 0.5f) move = Mathf.Sign(stick);
         }
 
-        if (horizontal != 0)
+        if (move != 0)
         {
-            currentIndex += (int)horizontal;
-            currentIndex = Mathf.Clamp(currentIndex, 0, cards.Count - 1);
-
+            currentIndex = Mathf.Clamp(currentIndex + (int)move, 0, cards.Count - 1);
             HighlightCurrent();
             lastInputTime = Time.unscaledTime;
         }
@@ -71,21 +115,16 @@ public class AugmentSelectionUI : MonoBehaviour
 
     void HandleSelection()
     {
-        bool validate =
-            (Keyboard.current != null && Keyboard.current.pKey.wasPressedThisFrame) ||
-            (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame);
+        bool validate = (Keyboard.current != null && Keyboard.current.pKey.wasPressedThisFrame) ||
+                        (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame);
 
-        if (validate)
+        if (validate && cards.Count > 0)
         {
-            Debug.Log("Augment sélectionné : " + currentIndex);
-
-            AugmentData selectedAugment = cards[currentIndex].augmentData;
-
-            if (selectedAugment != null && selectedAugment.effect != null)
+            AugmentData data = cards[currentIndex].augmentData;
+            if (data != null && data.effect != null)
             {
-                selectedAugment.effect.Apply(player);
+                data.effect.Apply(player);
             }
-
             Hide();
         }
     }
