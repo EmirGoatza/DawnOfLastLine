@@ -46,7 +46,7 @@ public class Health : MonoBehaviour
         if (IsDead) return;
 
         CurrentHealth -= amount;
-        Debug.Log($"{gameObject.name} a maintenant {currentHealth} HP.");
+        // Debug.Log($"{gameObject.name} a maintenant {currentHealth} HP.");
 
         if (currentHealth <= 0)
         {

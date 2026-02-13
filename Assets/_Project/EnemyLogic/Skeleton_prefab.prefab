@@ -831,7 +831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicEnemy
   enemyName: 
-  moveSpeed: 5
+  moveSpeed: 20
   moneyDropped: 10
   rotationSpeed: 10
   currentState: 0

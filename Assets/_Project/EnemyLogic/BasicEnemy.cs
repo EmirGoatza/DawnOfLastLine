@@ -71,7 +71,7 @@ public class BasicEnemy : Enemy
         if (targetHealth != null && !targetHealth.IsDead)
         {
             targetHealth.TakeDamage(damage);
-            Debug.Log($"<color=red>COMBAT ENNEMY :</color> {enemyName} inflige {damage} dégâts !");
+            // Debug.Log($"<color=red>COMBAT ENNEMY :</color> {enemyName} inflige {damage} dégâts !");
         }
 
         yield return new WaitForSeconds(attackStopDuration - 0.2f);

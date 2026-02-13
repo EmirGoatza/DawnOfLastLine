@@ -39,11 +39,13 @@ public class Arrow : MonoBehaviour
     
     void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Arrow collided with: " + collision.gameObject.name);
         if(hasHit) return;
         hasHit = true;
         
         if(collision.gameObject.CompareTag("Enemy"))
         {
+            Debug.Log("Arrow hit: " + collision.gameObject.name);
             Health health = collision.gameObject.GetComponent<Health>();
             if (health != null)
             {
