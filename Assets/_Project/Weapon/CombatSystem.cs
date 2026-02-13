@@ -28,7 +28,7 @@ public class CombatSystem : MonoBehaviour
             SlashHitbox hitbox = vfx.GetComponent<SlashHitbox>();
             if (hitbox != null)
             {
-                hitbox.Setup(damage);
+                hitbox.Setup(damage, playerCombat.combatStats, playerCombat.GetComponent<Health>());
             }
             else
             {
@@ -38,4 +38,6 @@ public class CombatSystem : MonoBehaviour
             Destroy(vfx, 2f); 
         }
     }
+
+
 }

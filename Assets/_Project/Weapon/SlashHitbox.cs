@@ -9,6 +9,8 @@ public class SlashHitbox : MonoBehaviour
     public float activeDuration = 0.1f;
 
     private int damageAmount;
+    private PlayerStats stats;
+    private Health sourceHealth;
     private List<GameObject> hitEnemies = new List<GameObject>();
     private Collider myCollider;
 
@@ -22,15 +24,17 @@ public class SlashHitbox : MonoBehaviour
         StartCoroutine(DisableColliderAfterTime());
     }
 
-    public void Setup(int damage)
+    public void Setup(int damage, PlayerStats playerStats, Health playerHealth)
     {
         damageAmount = damage;
+        stats = playerStats;
+        sourceHealth = playerHealth;
     }
 
     IEnumerator DisableColliderAfterTime()
     {
         yield return new WaitForSeconds(activeDuration);
-        
+
         if (myCollider != null)
         {
             myCollider.enabled = false;
@@ -45,23 +49,30 @@ public class SlashHitbox : MonoBehaviour
 
         if (enemyHealth != null)
         {
+            // Application des dégâts à l'ennemi
             enemyHealth.TakeDamage(damageAmount);
             hitEnemies.Add(other.gameObject);
-            // Debug.Log($"[TOUCHÉ] {other.name} a pris {damageAmount} dégâts !");
+
+            // Application de l'omnivampirisme si le joueur en a
+            if (stats != null && stats.omnivampirisme > 0 && sourceHealth != null)
+            {
+                int healAmount = Mathf.RoundToInt(damageAmount * (stats.omnivampirisme / 100f));
+                sourceHealth.Heal(healAmount);
+            }
         }
     }
 
     void OnDrawGizmos()
     {
         BoxCollider box = GetComponent<BoxCollider>();
-        
+
         if (box != null)
         {
-            if (!box.enabled) 
+            if (!box.enabled)
             {
                 Gizmos.color = new Color(0.5f, 0.5f, 0.5f, 0.2f);
             }
-            else 
+            else
             {
                 Gizmos.color = new Color(1, 0, 0, 0.4f);
             }

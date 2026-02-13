@@ -3952,8 +3952,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6772f0feb0a1ae4db04c1b69917efdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
-  baseDamage: 20
-  heavyMultiplier: 2
+  combatStats:
+    baseDamage: 20
+    heavyMultiplier: 2
+    omnivampirisme: 0
   comboWindowDuration: 0.8
   lightImpactTime: 0.2
   heavyImpactTime: 0.5
