@@ -3,14 +3,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Augment/Effects/RegenerationEffect")]
 public class RegenerationEffect : AugmentEffect
 {
-        public float regenerationGranted = 0.1f;
-        
+    public float regenerationGranted = 1f;
+
     public override void Apply(GameObject player)
     {
-        PlayerStats stats = player.GetComponent<PlayerStats>();
-        if (stats != null)
+        PlayerCombat playerCombat = player.GetComponent<PlayerCombat>();
+        if (playerCombat != null)
         {
-            stats.regenerationRate += regenerationGranted;
+            playerCombat.combatStats.regenerationRate += regenerationGranted;
         }
     }
 }

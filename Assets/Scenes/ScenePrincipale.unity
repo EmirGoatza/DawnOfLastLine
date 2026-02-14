@@ -3972,6 +3972,7 @@ MonoBehaviour:
     baseDamage: 20
     heavyMultiplier: 2
     omnivampirisme: 0
+    regenerationRate: 0
   comboWindowDuration: 0.8
   lightImpactTime: 0.2
   heavyImpactTime: 0.5
