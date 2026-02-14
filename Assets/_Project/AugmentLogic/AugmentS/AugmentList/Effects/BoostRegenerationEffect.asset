@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ce90899087f31e4c9955441a1730c7e, type: 3}
   m_Name: BoostRegenerationEffect
   m_EditorClassIdentifier: Assembly-CSharp::RegenerationEffect
-  descriptionTemplate: "R\xE9g\xE9n\xE8re {0} pv en plus par seconde."
+  descriptionTemplate: "R\xE9g\xE9n\xE8re {0} pv en plus par seconde"
   regenerationGranted: 0.1

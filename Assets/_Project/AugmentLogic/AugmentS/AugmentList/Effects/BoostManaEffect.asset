@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6227bb8f1467dbd4a861b2f78419e40f, type: 3}
   m_Name: BoostManaEffect
   m_EditorClassIdentifier: Assembly-CSharp::ManaBoostEffect
-  descriptionTemplate: "Mana max augment\xE9 de {0}."
+  descriptionTemplate: "Mana max augment\xE9 de {0}"
   ManaBoost: 20
