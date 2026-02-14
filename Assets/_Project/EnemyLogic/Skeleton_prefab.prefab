@@ -788,6 +788,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5d48d9d1219f63b49af60a222ca77bc4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4442879279014698124}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5d48d9d1219f63b49af60a222ca77bc4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7438238580990090491}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5d48d9d1219f63b49af60a222ca77bc4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3306060150206650055}
   m_SourcePrefab: {fileID: 100100000, guid: 5d48d9d1219f63b49af60a222ca77bc4, type: 3}
 --- !u!4 &1421330606115067092 stripped
 Transform:
@@ -832,18 +838,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BasicEnemy
   enemyName: 
   moveSpeed: 5
-  moneyDropped: 10
   rotationSpeed: 10
+  moneyDropped: 10
   currentState: 0
   detectionRange: 20
-  avoidanceDistance: 1.2
   allyTag: Ally
   buildingTag: Building
-  sideOffset: 0
   splineContainer: {fileID: 0}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  sideOffset: 0
   attackRange: 2
   attackCooldown: 2
   attackStopDuration: 2
@@ -908,7 +910,45 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!195 &-7438238580990090491
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797574016506089070}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 30
+  avoidancePriority: 50
+  m_AngularSpeed: 360
+  m_StoppingDistance: 1.5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!208 &3306060150206650055
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797574016506089070}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.4, y: 1, z: 0.4}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

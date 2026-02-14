@@ -2,44 +2,43 @@ using UnityEngine;
 using UnityEngine.Splines;
 using Unity.Mathematics;
 using UnityEngine.Events;
+using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
 {
+    public enum EnemyState { FollowingSpline, ChasingTarget, ReturningToSpline, Attacking }
+
+    [Header("Composants & Références Internes")]
+    protected NavMeshAgent agent;
+    protected NavMeshObstacle obstacle;
+    protected Health health;
+    private EnemyAnimator enemyAnimator; // Si présent dans les enfants
+
     [Header("Statistiques de Base")]
     [SerializeField] protected string enemyName;
     [SerializeField] protected float moveSpeed;
-    [SerializeField] protected float moneyDropped = 10f;
     [SerializeField] protected float rotationSpeed = 10f;
+    [SerializeField] protected float moneyDropped = 10f;
 
-
-    public enum EnemyState { FollowingSpline, ChasingTarget, ReturningToSpline, Attacking }
-    
-    [Header("États")]
+    [Header("Machine d'État")]
     [SerializeField] private EnemyState currentState = EnemyState.FollowingSpline;
 
-    [Header("Détection")]
+    [Header("Cibles & Détection")]
     [SerializeField] private float detectionRange = 5f;
     protected virtual float StoppingDistance => 0f;
-    [SerializeField] private float avoidanceDistance = 1.2f; // Distance à laquelle il s'arrête s'il y a un pote devant
     [SerializeField] private string allyTag = "Ally";
     [SerializeField] private string buildingTag = "Building";
     protected Transform currentTarget;
 
-    [Header("Vfx & Formation")]
-    public float sideOffset = 0f; // Décalage latéral pour éviter que tous les ennemis soient exactement au même endroit sur la spline
-
-    [Header("Spline")]
+    [Header("Logique Spline")]
     [SerializeField] public SplineContainer splineContainer;
+    public float sideOffset = 0f; 
     private float distanceTraveled = 0f;
-    
-    [SerializeField] private LayerMask enemyLayer; // pour ne détecter que les ennemis
 
-    protected Health health;
-
+    [Header("Références Externes (Auto-remplies)")]
     protected Transform player;
     private Health playerHealth;
     private PlayerMoney playerMoney;
-
     protected Transform mainBuilding;
 
     protected virtual void Awake()
@@ -48,6 +47,25 @@ public abstract class Enemy : MonoBehaviour
         // On trouve le joueur automatiquement au démarrage
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         GameObject mainBuildingObj = GameObject.FindGameObjectWithTag("MainBuilding");
+
+        agent = GetComponent<NavMeshAgent>();
+        obstacle = GetComponent<NavMeshObstacle>();
+        if (agent != null)
+        {
+            agent.speed = moveSpeed;
+            agent.updateRotation = true;
+            
+            // On synchronise la stoppingDistance
+            agent.stoppingDistance = StoppingDistance; 
+        }
+
+        // Configuration de l'obstacle
+        if (obstacle != null)
+        {
+            obstacle.enabled = false;
+            obstacle.carving = true; // Pour découper le sol
+        }
+
         if (playerObj != null)
         {
             player = playerObj.transform;
@@ -140,9 +158,21 @@ public abstract class Enemy : MonoBehaviour
         if (isAttacking)
         {
             currentState = EnemyState.Attacking;
+            if (agent != null) agent.enabled = false; 
+            if (obstacle != null) obstacle.enabled = true;
         }
         else
         {
+            // On rend l'objet mobile à nouveau
+            if (obstacle != null) obstacle.enabled = false;
+
+            if (agent != null) 
+            {
+                agent.enabled = true;
+                // pour être sûr qu'il ne se téléporte pas
+                agent.Warp(transform.position); 
+            };
+
             if (currentTarget != null) currentState = EnemyState.ChasingTarget;
             else currentState = EnemyState.ReturningToSpline;
         }
@@ -179,20 +209,11 @@ public abstract class Enemy : MonoBehaviour
         Vector3 tangent = (Vector3)splineContainer.EvaluateTangent(t);
 
         Vector3 sideDirection = Vector3.Cross(tangent, Vector3.up).normalized;
-        transform.position = pos + (sideDirection * sideOffset);
+        // On calcule la position cible avec le décalage
+        Vector3 targetPosWithOffset = pos + (sideDirection * sideOffset);
 
-        if (tangent != Vector3.zero)
-        {
-            // On calcule la rotation cible
-            Quaternion targetRotation = Quaternion.LookRotation(tangent);
+        agent.SetDestination(targetPosWithOffset);
 
-            // On tourne progressivement vers cette cible
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation, 
-                targetRotation, 
-                Time.deltaTime * rotationSpeed
-            );
-        }
     }
 
     // Détection de perso à attaquer
@@ -283,35 +304,26 @@ public abstract class Enemy : MonoBehaviour
             currentState = EnemyState.ReturningToSpline; 
             return; 
         }
-
         Vector3 destination = currentTarget.position;
         Collider targetCollider = currentTarget.GetComponent<Collider>();
-
-        if (targetCollider != null)
+        
+        // Si c'est un gros bâtiment, on vise le bord, pas le centre
+        if (targetCollider != null && (currentTarget.CompareTag("MainBuilding") || currentTarget.CompareTag(buildingTag)))
         {
-            // On vise le point le plus proche sur le bord
             destination = targetCollider.ClosestPoint(transform.position);
         }
 
-        RotateTowardsTarget();
-        
-        // Calcul de la distance à la surface pour savoir s'il faut abandonner ou attaquer
-        float distanceToSurface = Vector3.Distance(transform.position, destination);
+        agent.isStopped = false;
+        agent.SetDestination(destination);
 
-        // On ne bouge que si on est plus loin que la distance d'arrêt
-        if (distanceToSurface > StoppingDistance && !IsPathBlocked())
-        {
-            // On calcule le prochain point de mouvement
-            Vector3 nextPos = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
+        float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
 
-            // On garde transform.position.y tel quel pour laisser la gravité du Rigidbody 
-            transform.position = new Vector3(nextPos.x, transform.position.y, nextPos.z);
-        }
-
-        if (distanceToSurface > detectionRange * 1.5f)
+        // Si la cible est trop loin, on retourne à la spline
+        if (distanceToTarget > detectionRange * 1.5f)
         {
             currentState = EnemyState.ReturningToSpline;
         }
+
     }
 
     // Revenir sur la spline
@@ -332,38 +344,23 @@ public abstract class Enemy : MonoBehaviour
         // Cible de retour = Point sur la spline + le décalage latéral d'origine
         Vector3 targetPosWithOffset = posOnSpline + (sideDirection * sideOffset);
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPosWithOffset, moveSpeed * Time.deltaTime);
-
-        if (tangent != Vector3.zero)
+        if (NavMesh.SamplePosition(targetPosWithOffset, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
         {
-            Quaternion targetRotation = Quaternion.LookRotation(tangent);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+            agent.isStopped = false;
+            agent.SetDestination(hit.position);
+        }
+        else
+        {
+            // Si vraiment on ne trouve pas de NavMesh, on Warp l'ennemi pour le débloquer
+            agent.Warp(targetPosWithOffset);
         }
 
-        // Une fois arrivé, on synchronise la distance et on reprend le suivi
-        if (Vector3.Distance(transform.position, targetPosWithOffset) < 0.1f)
+        // pathPending est true pendant que l'agent calcule. On attend qu'il ait fini.
+        if (!agent.pathPending && (agent.remainingDistance <= agent.stoppingDistance + 0.3f))
         {
-            // On met à jour distanceTraveled pour que le script sache qu'on redémarre à partir de ce nouveau point "t"
             distanceTraveled = tNearest * splineContainer.CalculateLength();
-            
             currentState = EnemyState.FollowingSpline;
         }
-    }
 
-    private bool IsPathBlocked()
-    {
-        // On lance un rayon vers l'avant (à hauteur de taille pour ne pas détecter le sol)
-        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, transform.forward);
-        
-        if (Physics.Raycast(ray, out RaycastHit hit, avoidanceDistance))
-        {
-            // Si on touche quelque chose qui n'est pas notre cible actuelle
-            // et que c'est un autre ennemi (ou un allié qui bloque)
-            if (hit.transform != currentTarget && (hit.transform.CompareTag("Enemy") || hit.transform.CompareTag(allyTag)))
-            {
-                return true; // Voie bloquée
-            }
-        }
-        return false;
     }
 }
