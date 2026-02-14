@@ -38,6 +38,9 @@ public class PlayerCombat : MonoBehaviour
     private const string ANIM_HEAVY = "AttackC";
 
 
+    private float regenerationTimer = 0f;
+
+
     void Start()
     {
         anim = GetComponent<Animator>();

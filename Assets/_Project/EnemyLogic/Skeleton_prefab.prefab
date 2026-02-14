@@ -838,10 +838,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BasicEnemy
   enemyName: 
   moveSpeed: 5
-<<<<<<< HEAD
-=======
   moneyDropped: 10
->>>>>>> main
   rotationSpeed: 10
   moneyDropped: 10
   currentState: 0
@@ -850,13 +847,9 @@ MonoBehaviour:
   allyTag: Ally
   buildingTag: Building
   splineContainer: {fileID: 0}
-<<<<<<< HEAD
-  sideOffset: 0
-=======
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
->>>>>>> main
   attackRange: 2
   attackCooldown: 2
   attackStopDuration: 2
