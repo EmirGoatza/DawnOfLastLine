@@ -93,6 +93,73 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a095f798aba8f2946b3a23de742b2fb8, type: 3}
   m_PrefabInstance: {fileID: 935844295240678847}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1875284107649104242
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8625634055909917080}
+    m_Modifications:
+    - target: {fileID: 245973696916252499, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.123
+      objectReference: {fileID: 0}
+    - target: {fileID: 245973696916252499, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.883
+      objectReference: {fileID: 0}
+    - target: {fileID: 245973696916252499, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.832
+      objectReference: {fileID: 0}
+    - target: {fileID: 245973696916252499, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 245973696916252499, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 245973696916252499, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 245973696916252499, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 245973696916252499, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 245973696916252499, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 245973696916252499, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 653576962034278605, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+      propertyPath: m_Name
+      value: HitboxTroop
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+--- !u!1 &1375744396887235007 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 653576962034278605, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+  m_PrefabInstance: {fileID: 1875284107649104242}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1832832230730522145 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 245973696916252499, guid: d71db80c45e3ba74f9fc24adadc1c9e3, type: 3}
+  m_PrefabInstance: {fileID: 1875284107649104242}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2102065958663329605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -374,6 +441,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8582322328225592179}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1832832230730522145}
     - targetCorrespondingSourceObject: {fileID: 6027369803899018324, guid: 2faa610713d3b3c439473daa55e8c60a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7167143472899684394}
@@ -435,6 +505,7 @@ MonoBehaviour:
   firevfxPrefab: {fileID: 5313456068782518071, guid: 50f1354827c77ef4b99c4dca0ee3411d, type: 3}
   shockvfxPrefab: {fileID: 9177886612219991525, guid: f90fc7acf1ef2fa4c85896a9afc17028, type: 3}
   watervfxPrefab: {fileID: 856368647163548680, guid: 724d151229932ba47931fcc83c083470, type: 3}
+  hitboxPrefab: {fileID: 1375744396887235007}
   slashSpawnPoint: {fileID: 9176530468437422987}
   damage: 5
 --- !u!195 &8272614603943484943
@@ -472,6 +543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 200
+  regenerationRate: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls: []

@@ -17,6 +17,9 @@ public class TroopLogic : UnitController
     public GameObject firevfxPrefab;
     public GameObject shockvfxPrefab;
     public GameObject watervfxPrefab;
+
+    public GameObject hitboxPrefab;
+    
     [FormerlySerializedAs("slashsSpawnPoint")] public Transform slashSpawnPoint;
 
 
@@ -141,8 +144,10 @@ public class TroopLogic : UnitController
         
             GameObject vfx = Instantiate(slashvfxPrefab, slashSpawnPoint.position, slashSpawnPoint.rotation);
 
-
-            SlashHitbox hitbox = vfx.GetComponent<SlashHitbox>();
+            DamageHandler damageHandler = hitboxPrefab.GetComponent<DamageHandler>();
+            damageHandler.ActivateHitbox(damage);
+            
+            /*SlashHitbox hitbox = vfx.GetComponent<SlashHitbox>();
             if (hitbox != null)
             {
                 hitbox.Setup(damage, null, null);
@@ -150,7 +155,7 @@ public class TroopLogic : UnitController
             else
             {
                 Debug.LogWarning("Le prefab de Slash n'a pas le script 'SlashHitbox' !");
-            }
+            }*/
         
             Destroy(vfx, 2f); 
         }

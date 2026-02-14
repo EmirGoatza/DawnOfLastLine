@@ -19,7 +19,7 @@ public class SlashHitbox : MonoBehaviour
         myCollider = GetComponent<Collider>();
     }
 
-    void Start()
+    void OnEnable()
     {
         StartCoroutine(DisableColliderAfterTime());
     }
