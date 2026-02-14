@@ -15,3 +15,4 @@ MonoBehaviour:
   augmentName: Augment de pv
   description: Boost de pv de 100
   effect: {fileID: 11400000, guid: 1a5f4c663cde294479285b260ac4969a, type: 2}
+  rarity: 50

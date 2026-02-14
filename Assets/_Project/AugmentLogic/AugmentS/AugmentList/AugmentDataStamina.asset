@@ -15,3 +15,4 @@ MonoBehaviour:
   augmentName: Augment de stamina
   description: Boost de stamina de 1
   effect: {fileID: 11400000, guid: 75aebaec3cd000c42afac857f72aeaa0, type: 2}
+  rarity: 50
