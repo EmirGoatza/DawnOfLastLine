@@ -6,4 +6,5 @@ public class AugmentData : ScriptableObject
     public string augmentName;
     public string description;
     public AugmentEffect effect;
+    // public Rarity rarity;
 }

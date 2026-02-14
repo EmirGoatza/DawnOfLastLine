@@ -12,7 +12,6 @@ public abstract class Enemy : MonoBehaviour
     protected NavMeshAgent agent;
     protected NavMeshObstacle obstacle;
     protected Health health;
-    private EnemyAnimator enemyAnimator; // Si présent dans les enfants
 
     [Header("Statistiques de Base")]
     [SerializeField] protected string enemyName;
