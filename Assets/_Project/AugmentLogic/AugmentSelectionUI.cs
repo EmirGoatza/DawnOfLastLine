@@ -17,6 +17,10 @@ public class AugmentSelectionUI : MonoBehaviour
     private float lastInputTime;
     private bool isActive = false;
 
+    [Header("Debug")]
+    [SerializeField] private bool forceFirstCard = false;
+    [SerializeField] private string forcedCardName;
+
     private void LoadAllPrefabs()
     {
         if (cardPrefabs.Count > 0) return; // Déjà chargé
@@ -74,16 +78,42 @@ public class AugmentSelectionUI : MonoBehaviour
         }
         cards.Clear();
 
-        // On pioche dans la liste chargée dynamiquement
         List<GameObject> pool = new List<GameObject>(cardPrefabs);
 
-        for (int i = 0; i < numberOfCardsToSpawn; i++)
+        // -----------------------------
+        // Force une carte si spécifié
+        // -----------------------------
+        if (forceFirstCard && !string.IsNullOrEmpty(forcedCardName))
         {
-            if (pool.Count == 0) break;
+            Debug.LogWarning("Attention, carte forcée utilisée dans AugmentSelectionUI !");
+            GameObject forcedPrefab = pool.Find(p => p.name == forcedCardName);
 
+            if (forcedPrefab != null)
+            {
+                GameObject forcedCardObj = Instantiate(forcedPrefab, augmentPanel);
+                forcedCardObj.transform.localScale = Vector3.one;
+
+                AugmentCardUI forcedUI = forcedCardObj.GetComponent<AugmentCardUI>();
+                if (forcedUI != null)
+                {
+                    cards.Add(forcedUI);
+                }
+
+                pool.Remove(forcedPrefab);
+            }
+            else
+            {
+                Debug.LogWarning($"Carte forcée '{forcedCardName}' introuvable !");
+            }
+        }
+
+        // -----------------------------
+        // Génération aléatoire du reste
+        // -----------------------------
+        while (cards.Count < numberOfCardsToSpawn && pool.Count > 0)
+        {
             int randomIndex = Random.Range(0, pool.Count);
             GameObject cardObj = Instantiate(pool[randomIndex], augmentPanel);
-
             cardObj.transform.localScale = Vector3.one;
 
             AugmentCardUI cardUI = cardObj.GetComponent<AugmentCardUI>();
@@ -91,6 +121,7 @@ public class AugmentSelectionUI : MonoBehaviour
             {
                 cards.Add(cardUI);
             }
+
             pool.RemoveAt(randomIndex);
         }
 
