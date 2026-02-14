@@ -41,6 +41,9 @@ public class Arrow : MonoBehaviour
     {
         if(hasHit) return;
         hasHit = true;
+
+        Collider collider = GetComponent<Collider>();
+        if(collider != null) collider.enabled = false;
         
         if(collision.gameObject.CompareTag("Enemy"))
         {
