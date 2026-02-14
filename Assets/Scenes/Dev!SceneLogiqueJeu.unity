@@ -3047,6 +3047,7 @@ MonoBehaviour:
   currentWave: 0
   groupsInWave:
   - count: 10
+<<<<<<< HEAD
     delayAfter: 1
   - count: 10
     delayAfter: 0
@@ -3056,6 +3057,17 @@ MonoBehaviour:
     delayAfter: 1
   - count: 10
     delayAfter: 1
+=======
+    delayAfter: 0
+  - count: 10
+    delayAfter: 0
+  - count: 10
+    delayAfter: 0
+  - count: 10
+    delayAfter: 0
+  - count: 10
+    delayAfter: 0
+>>>>>>> main
   laneWidth: 10
   spacingZ: 1
   enemyPrefab: {fileID: 1797574016506089070, guid: cea43f7ba41133e4cbf529b14e3f9810, type: 3}

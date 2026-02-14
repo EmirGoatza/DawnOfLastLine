@@ -26,6 +26,7 @@ public abstract class Enemy : MonoBehaviour
     [Header("Cibles & Détection")]
     [SerializeField] private float detectionRange = 5f;
     protected virtual float StoppingDistance => 0f;
+    [SerializeField] private float avoidanceDistance = 1.2f; // Distance à laquelle il s'arrête s'il y a un pote devant
     [SerializeField] private string allyTag = "Ally";
     [SerializeField] private string buildingTag = "Building";
     protected Transform currentTarget;
@@ -34,6 +35,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] public SplineContainer splineContainer;
     public float sideOffset = 0f; 
     private float distanceTraveled = 0f;
+    
+    [SerializeField] private LayerMask enemyLayer; // pour ne détecter que les ennemis
 
     [Header("Références Externes (Auto-remplies)")]
     protected Transform player;
@@ -362,5 +365,22 @@ public abstract class Enemy : MonoBehaviour
             currentState = EnemyState.FollowingSpline;
         }
 
+    }
+
+    private bool IsPathBlocked()
+    {
+        // On lance un rayon vers l'avant (à hauteur de taille pour ne pas détecter le sol)
+        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, transform.forward);
+        
+        if (Physics.Raycast(ray, out RaycastHit hit, avoidanceDistance))
+        {
+            // Si on touche quelque chose qui n'est pas notre cible actuelle
+            // et que c'est un autre ennemi (ou un allié qui bloque)
+            if (hit.transform != currentTarget && (hit.transform.CompareTag("Enemy") || hit.transform.CompareTag(allyTag)))
+            {
+                return true; // Voie bloquée
+            }
+        }
+        return false;
     }
 }

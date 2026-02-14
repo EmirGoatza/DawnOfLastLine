@@ -7,10 +7,10 @@ public class RegenerationEffect : AugmentEffect
 
     public override void Apply(GameObject player)
     {
-        PlayerCombat playerCombat = player.GetComponent<PlayerCombat>();
-        if (playerCombat != null)
+        Health playerHealth = player.GetComponent<Health>();
+        if (playerHealth != null)
         {
-            playerCombat.combatStats.regenerationRate += regenerationGranted;
+            playerHealth.Regeneration += regenerationGranted;
         }
     }
 }

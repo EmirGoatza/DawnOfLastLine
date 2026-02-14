@@ -6,6 +6,9 @@ public class Health : MonoBehaviour
     [SerializeField] private float maxHealth = 100f;
     private float currentHealth;
 
+    public float regenerationRate = 0f; // En points de vie par seconde
+    private float regenerationTimer = 0f;
+
     public UnityEvent OnDeath;
     public UnityEvent<float, float> OnHealthChanged;
 
@@ -29,6 +32,12 @@ public class Health : MonoBehaviour
         }
     }
 
+    public float Regeneration
+    {
+        get => regenerationRate;
+        set => regenerationRate = value;
+    }
+
     public bool IsDead { get; private set; } = false;
 
     void Awake()
@@ -43,6 +52,11 @@ public class Health : MonoBehaviour
         {
             gameObject.AddComponent<HealthAddedPopup>();
         }
+    }
+
+    void Update()
+    {
+        ApplyRegeneration();
     }
 
     public void TakeDamage(float amount)
@@ -73,6 +87,19 @@ public class Health : MonoBehaviour
     {
         if (IsDead) return;
         CurrentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+    }
+
+
+    public void ApplyRegeneration()
+    {
+        if(regenerationRate <= 0) return;
+
+        regenerationTimer += Time.deltaTime;
+        if (regenerationTimer >= 1f)
+        {
+            Heal(regenerationRate);
+            regenerationTimer = 0f;
+        }
     }
 
 }
