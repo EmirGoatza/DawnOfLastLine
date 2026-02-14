@@ -29332,7 +29332,6 @@ GameObject:
   - component: {fileID: 6389406066330802590}
   - component: {fileID: 6389406066330802591}
   - component: {fileID: 7092066656064221091}
-  - component: {fileID: 1598030342800650198}
   - component: {fileID: -1626511904698308349}
   m_Layer: 0
   m_Name: basicslash
@@ -34173,19 +34172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParticleStartAt
   startTime: 0.15
---- !u!114 &1598030342800650198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6389406066330802589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d7b5b387b0cc7b46a642b9762191e52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SlashHitbox
-  activeDuration: 0.1
 --- !u!65 &-1626511904698308349
 BoxCollider:
   m_ObjectHideFlags: 0

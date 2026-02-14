@@ -4907,7 +4907,6 @@ GameObject:
   - component: {fileID: 3379026069473691663}
   - component: {fileID: -6118609555625975897}
   - component: {fileID: 5175244812646012488}
-  - component: {fileID: -2936334643457804203}
   m_Layer: 0
   m_Name: Slash Water VFX
   m_TagString: Untagged
@@ -9824,23 +9823,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 3.0333872, y: 1, z: 2.9711642}
   m_Center: {x: -0.2301982, y: 0.00001001358, z: 0.018942118}
---- !u!114 &-2936334643457804203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 856368647163548680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d7b5b387b0cc7b46a642b9762191e52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SlashHitbox
-  activeDuration: 0.1
 --- !u!1 &1908965869915170937
 GameObject:
   m_ObjectHideFlags: 0

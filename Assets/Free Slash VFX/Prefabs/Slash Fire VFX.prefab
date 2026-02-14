@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7835111980319404848}
   - component: {fileID: 8383531243938123964}
   - component: {fileID: 4158625716723553866}
-  - component: {fileID: -3280104178561950970}
   m_Layer: 0
   m_Name: Slash Fire VFX
   m_TagString: Untagged
@@ -4931,23 +4930,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 3.0333872, y: 1, z: 2.9711642}
   m_Center: {x: -0.2301982, y: 0.00001001358, z: 0.018942118}
---- !u!114 &-3280104178561950970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5313456068782518071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d7b5b387b0cc7b46a642b9762191e52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SlashHitbox
-  activeDuration: 0.1
 --- !u!1 &6090277084310656479
 GameObject:
   m_ObjectHideFlags: 0
