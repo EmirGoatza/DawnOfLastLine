@@ -4065,6 +4065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 100
+  regenerationRate: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
