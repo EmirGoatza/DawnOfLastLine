@@ -42,7 +42,7 @@ public class PlayerHealthBarUI : MonoBehaviour
     {
         if (showHealthText && healthText != null)
         {
-            healthText.text = $"{playerHealth.CurrentHealth}/{playerHealth.MaxHealth}";
+            healthText.text = $"{playerHealth.CurrentHealth:0.##}/{playerHealth.MaxHealth:0.##}";
         }
     }
 
