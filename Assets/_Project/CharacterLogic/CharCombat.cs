@@ -38,9 +38,6 @@ public class PlayerCombat : MonoBehaviour
     private const string ANIM_HEAVY = "AttackC";
 
 
-    private float regenerationTimer = 0f;
-
-
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -52,7 +49,6 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         HandleInput();
-        ApplyRegeneration();
     }
 
     void HandleInput()
@@ -171,22 +167,5 @@ public class PlayerCombat : MonoBehaviour
         queuedLight = false;
         queuedHeavy = false;
         if (charMove != null) charMove.canMove = true;
-    }
-
-    void ApplyRegeneration()
-    {
-        if (combatStats.regenerationRate > 0)
-        {
-            Health playerHealth = GetComponent<Health>();
-            if (playerHealth != null)
-            {
-                regenerationTimer += Time.deltaTime;
-                if (regenerationTimer >= 1f)
-                {
-                    playerHealth.Heal(combatStats.regenerationRate);
-                    regenerationTimer = 0f;
-                }
-            }
-        }
     }
 }
