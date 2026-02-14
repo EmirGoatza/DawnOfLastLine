@@ -8,22 +8,22 @@ public class PlayerCombat : MonoBehaviour
     public PlayerStats combatStats = new PlayerStats();
 
     [Header("Combo Settings")]
-    public float comboWindowDuration = 0.8f; 
-    
+    public float comboWindowDuration = 0.8f;
+
     [Header("Impact Timing")]
-    public float lightImpactTime = 0.2f; 
-    public float heavyImpactTime = 0.5f; 
-    public float heavyRecoveryTime = 1.0f; 
+    public float lightImpactTime = 0.2f;
+    public float heavyImpactTime = 0.5f;
+    public float heavyRecoveryTime = 1.0f;
 
     [Header("Scaling")]
     [Tooltip("Grossissement du VFX pour l'attaque lourde")]
-    public float heavyScaleMultiplier = 1.5f; 
+    public float heavyScaleMultiplier = 1.5f;
 
     private CombatSystem combatSystem;
 
     public int ComboStep { get { return comboStep; } }
     private int comboStep = 0;
-    
+
     private bool isAttacking = false;
     private bool canChain = false;
     private bool queuedLight = false;
@@ -38,6 +38,8 @@ public class PlayerCombat : MonoBehaviour
     private const string ANIM_HEAVY = "AttackC";
 
 
+    private float regenerationTimer = 0f;
+
 
     void Start()
     {
@@ -50,14 +52,15 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         HandleInput();
+        ApplyRegeneration();
     }
 
     void HandleInput()
     {
-        bool inputLight = (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) 
+        bool inputLight = (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
                           || (Gamepad.current != null && Gamepad.current.rightShoulder.wasPressedThisFrame);
 
-        bool inputHeavy = (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame) 
+        bool inputHeavy = (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame)
                           || (Gamepad.current != null && Gamepad.current.rightTrigger.wasPressedThisFrame);
 
         if (!isAttacking)
@@ -86,7 +89,7 @@ public class PlayerCombat : MonoBehaviour
 
         int currentDamage = combatStats.baseDamage;
         float currentImpactTime = lightImpactTime;
-        
+
         if (step == 1)
         {
             anim.SetTrigger(ANIM_LIGHT1);
@@ -120,7 +123,7 @@ public class PlayerCombat : MonoBehaviour
             yield break;
         }
 
-        canChain = true; 
+        canChain = true;
 
         float timer = 0;
         bool nextAttackFound = false;
@@ -168,5 +171,22 @@ public class PlayerCombat : MonoBehaviour
         queuedLight = false;
         queuedHeavy = false;
         if (charMove != null) charMove.canMove = true;
+    }
+
+    void ApplyRegeneration()
+    {
+        if (combatStats.regenerationRate > 0)
+        {
+            Health playerHealth = GetComponent<Health>();
+            if (playerHealth != null)
+            {
+                regenerationTimer += Time.deltaTime;
+                if (regenerationTimer >= 1f)
+                {
+                    playerHealth.Heal(combatStats.regenerationRate);
+                    regenerationTimer = 0f;
+                }
+            }
+        }
     }
 }
