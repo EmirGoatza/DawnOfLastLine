@@ -1697,6 +1697,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 348186952598200801, guid: 9f73f8881ae935a49963941b60b8488c, type: 3}
+      propertyPath: actOnTimer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5225870643400865798, guid: 9f73f8881ae935a49963941b60b8488c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2160,7 +2164,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   currentWave: 0
-  groupsInWave: []
+  groupsInWave:
+  - count: 10
+    delayAfter: 30
+  - count: 10
+    delayAfter: 0
   laneWidth: 10
   spacingZ: 1
   enemyPrefab: {fileID: 1797574016506089070, guid: cea43f7ba41133e4cbf529b14e3f9810, type: 3}
