@@ -15,4 +15,8 @@ public class OmnivampBoostEffect : AugmentEffect
             Debug.Log($"Omnivampirisme augmenté ! Nouvel omnivampirisme : {combat.combatStats.omnivampirisme}");
         }
     }
+    protected override object[] GetDescriptionValues()
+    {
+        return new object[] { bonusOmnivamp };
+    }
 }

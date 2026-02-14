@@ -9,4 +9,8 @@ public class StaminaBoostEffect : AugmentEffect
     {
         Debug.Log("Stamina Boost appliqué");
     }
+    protected override object[] GetDescriptionValues()
+    {
+        return new object[] { bonusStamina };
+    }
 }

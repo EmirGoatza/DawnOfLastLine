@@ -9,4 +9,8 @@ public class ManaBoostEffect : AugmentEffect
     {
         Debug.Log("Mana Boost appliqué");
     }
+    protected override object[] GetDescriptionValues()
+    {
+        return new object[] { ManaBoost };
+    }
 }

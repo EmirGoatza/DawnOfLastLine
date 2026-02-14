@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e462fa606fa8c84084a3552a82e9b0e, type: 3}
   m_Name: BoostOmnivampEffect
   m_EditorClassIdentifier: Assembly-CSharp::OmnivampBoostEffect
+  descriptionTemplate: Octroie +{0} en omnivampirisme.
   bonusOmnivamp: 1

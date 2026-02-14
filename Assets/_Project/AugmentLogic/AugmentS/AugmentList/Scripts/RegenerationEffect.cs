@@ -13,4 +13,10 @@ public class RegenerationEffect : AugmentEffect
             playerHealth.Regeneration += regenerationGranted;
         }
     }
+
+    protected override object[] GetDescriptionValues()
+    {
+        return new object[] { regenerationGranted };
+    }
+
 }

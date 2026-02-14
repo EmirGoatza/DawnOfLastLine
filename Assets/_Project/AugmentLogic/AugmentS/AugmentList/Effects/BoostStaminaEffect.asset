@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da65116c77ddaeb4b91ebb50d90e9fef, type: 3}
   m_Name: BoostStaminaEffect
   m_EditorClassIdentifier: Assembly-CSharp::StaminaBoostEffect
+  descriptionTemplate: "Votre barre de stamina est augment\xE9e de {0}."
   bonusStamina: 1

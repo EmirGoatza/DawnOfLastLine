@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cfc89d017d81d846940399795b2d496, type: 3}
   m_Name: BoostDegatEffect
   m_EditorClassIdentifier: Assembly-CSharp::DamageBoostEffect
+  descriptionTemplate: "Vos d\xE9g\xE2ts de base sont augment\xE9s de {0}."
   bonusDamage: 5

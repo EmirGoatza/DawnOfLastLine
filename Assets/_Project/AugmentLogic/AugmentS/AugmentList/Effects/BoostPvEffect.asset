@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1aa1234440645643b178429b1ee8d78, type: 3}
   m_Name: BoostPvEffect
   m_EditorClassIdentifier: Assembly-CSharp::PvBoostEffect
+  descriptionTemplate: "Votre sant\xE9 est augment\xE9e de {0} points."
   bonusPv: 100

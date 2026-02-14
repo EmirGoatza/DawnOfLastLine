@@ -20,7 +20,7 @@ public class AugmentCardUI : MonoBehaviour
         if (augmentData != null)
         {
             titleText?.SetText(augmentData.augmentName);
-            descriptionText?.SetText(augmentData.description);
+            descriptionText?.SetText(augmentData.Description);
         }
     }
 

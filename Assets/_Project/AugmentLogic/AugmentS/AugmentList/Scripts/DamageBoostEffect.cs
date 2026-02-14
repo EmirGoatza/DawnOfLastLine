@@ -15,4 +15,8 @@ public class DamageBoostEffect : AugmentEffect
             Debug.Log($"Dégâts augmentés ! Nouveau baseDamage : {combat.combatStats.baseDamage}");
         }
     }
+    protected override object[] GetDescriptionValues()
+    {
+        return new object[] { bonusDamage };
+    }
 }

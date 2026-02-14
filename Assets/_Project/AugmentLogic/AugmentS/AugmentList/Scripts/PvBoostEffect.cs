@@ -14,4 +14,8 @@ public class PvBoostEffect : AugmentEffect
             h.CurrentHealth += bonusPv;
         }
     }
+    protected override object[] GetDescriptionValues()
+    {
+        return new object[] { bonusPv };
+    }
 }

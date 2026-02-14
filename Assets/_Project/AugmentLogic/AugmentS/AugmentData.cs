@@ -12,7 +12,8 @@ public enum Rarity
 public class AugmentData : ScriptableObject
 {
     public string augmentName;
-    public string description;
     public AugmentEffect effect;
     public Rarity rarity;
+
+    public string Description => effect != null ? effect.GetDescription() : "";
 }
