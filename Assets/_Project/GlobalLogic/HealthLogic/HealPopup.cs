@@ -25,7 +25,7 @@ public class HealPopup : MonoBehaviour
 
     public void Setup(float healAmount)
     {
-        text.text = $"+{Mathf.RoundToInt(healAmount)}";
+        text.text = $"+{healAmount:0.##}";
     }
 
     void Update()
