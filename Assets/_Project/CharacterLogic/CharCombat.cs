@@ -109,7 +109,8 @@ public class PlayerCombat : MonoBehaviour
 
         if (combatSystem != null)
         {
-            combatSystem.TriggerSlash(currentDamage);
+            combatSystem.setcurrentDamage(currentDamage);
+            //OnAttackVFXCall();
         }
         else
         {
@@ -188,5 +189,10 @@ public class PlayerCombat : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void OnAttackVFXCall()
+    {
+        combatSystem.TriggerSlash();
     }
 }
