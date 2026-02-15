@@ -4005,10 +4005,6 @@ MonoBehaviour:
     heavyMultiplier: 2
     omnivampirisme: 0
     regenerationRate: 0
-  comboWindowDuration: 0.8
-  lightImpactTime: 0.2
-  heavyImpactTime: 0.5
-  heavyRecoveryTime: 1
   heavyScaleMultiplier: 1.5
 --- !u!114 &1664687024
 MonoBehaviour:
@@ -4677,7 +4673,11 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: ec57a7c62e93bf34eb30016736ac1a88, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 024dcd2054ca304409966e705725101e, type: 2}
+      objectReference: {fileID: 9100000, guid: 53a9c85bb9eeb3f4ba7235d39a501a1c, type: 2}
+    - target: {fileID: 5866666021909216657, guid: ec57a7c62e93bf34eb30016736ac1a88, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6271543346248437234, guid: ec57a7c62e93bf34eb30016736ac1a88, type: 3}
       propertyPath: m_Layer
       value: 7
