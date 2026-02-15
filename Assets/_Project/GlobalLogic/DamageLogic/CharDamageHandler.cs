@@ -7,7 +7,6 @@ public class CharDamageHandler : DamageHandler
     
     private Health sourceHealth;
     private PlayerStats stats;
-    private Collider myCollider;
     
 
     void Start()

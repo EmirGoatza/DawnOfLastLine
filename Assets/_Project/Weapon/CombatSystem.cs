@@ -11,11 +11,21 @@ public class CombatSystem : MonoBehaviour
     
     private PlayerCombat playerCombat;
     private int currentDamage;
+    private bool heavy = false;
 
 
     public void setcurrentDamage(int damage)
     {
         currentDamage = damage;
+    }
+
+    public void setHeavy(string currentcombo)
+    {
+        if (currentcombo == "Heavy")
+        {
+            heavy = true;
+        }
+        else heavy = false;
     }
     
     void Start()
@@ -31,7 +41,7 @@ public class CombatSystem : MonoBehaviour
             
             GameObject vfx = Instantiate(slashPrefab, slashSpawnPoint.position, finalRotation);
 
-            if (playerCombat != null && playerCombat.ComboStep == 3)
+            if (playerCombat != null && heavy)
             {
                 vfx.transform.localScale *= playerCombat.heavyScaleMultiplier;
                 Heavy(currentDamage);
