@@ -2,11 +2,19 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
-public class PlayerCombat : MonoBehaviour
+public class CharCombatv2 : MonoBehaviour
 {
     [Header("Stats")]
     public PlayerStats combatStats = new PlayerStats();
-    
+
+    [Header("Combo Settings")]
+    public float comboWindowDuration = 0.8f;
+
+    [Header("Impact Timing")]
+    public float lightImpactTime = 0.2f;
+    public float heavyImpactTime = 0.5f;
+    public float heavyRecoveryTime = 1.0f;
+
     [Header("Scaling")]
     [Tooltip("Grossissement du VFX pour l'attaque lourde")]
     public float heavyScaleMultiplier = 1.5f;
@@ -52,41 +60,32 @@ public class PlayerCombat : MonoBehaviour
             bool inputHeavy = (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame)
                               || (Gamepad.current != null && Gamepad.current.rightTrigger.wasPressedThisFrame);
 
-            AnimatorStateInfo currentState = anim.GetCurrentAnimatorStateInfo(0);
-            bool isInLightLockedCombo = currentState.IsTag("LightLocked");
-            bool isInHeavyLockedCombo = currentState.IsTag("HeavyLocked");
-            
-            if (inputLight && !isInLightLockedCombo)
-            {
-                    PerformCombo(light);
-            }
-            else if (inputHeavy && !isInHeavyLockedCombo)
-            {
-                    PerformCombo(heavy);
-            }
+            if (inputLight) PerformCombo(light);
+            else if (inputHeavy) PerformCombo(heavy);
         }
     }
 
     void PerformCombo(string currentCombo)
     {
         isAttacking = true;
+
         if (charMove != null) charMove.canMove = false;
 
-        
         FaceTarget();
 
         int currentDamage = combatStats.baseDamage;
+        float currentImpactTime = lightImpactTime;
 
         if (currentCombo == heavy)
         {
             currentDamage = Mathf.RoundToInt(combatStats.baseDamage * combatStats.heavyMultiplier);
+            currentImpactTime = heavyImpactTime;
         }
         
         
         if (combatSystem != null)
         {
             combatSystem.setcurrentDamage(currentDamage);
-            combatSystem.setHeavy(currentCombo);
             //OnAttackVFXCall();
         }
         else
@@ -138,7 +137,6 @@ public class PlayerCombat : MonoBehaviour
 
     public void OnAnimationEnd()
     {
-        if (charMove != null && !isAttacking) charMove.canMove = true;
+        if (charMove != null) charMove.canMove = true;
     }
-    
 }

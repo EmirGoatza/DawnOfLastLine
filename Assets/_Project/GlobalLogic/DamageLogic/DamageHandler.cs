@@ -18,7 +18,7 @@ public class DamageHandler : MonoBehaviour
 
     [HideInInspector] public int damageAmount;
     
-    private Collider myCollider;
+    protected Collider myCollider;
     protected HashSet<GameObject> hitEnemies = new HashSet<GameObject>();
 
     [Header("Cibles adverses")]
