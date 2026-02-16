@@ -818,6 +818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 50
+  regenerationRate: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -838,7 +839,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BasicEnemy
   enemyName: 
   moveSpeed: 5
-  moneyDropped: 10
   rotationSpeed: 10
   moneyDropped: 10
   currentState: 0
@@ -847,13 +847,14 @@ MonoBehaviour:
   allyTag: Ally
   buildingTag: Building
   splineContainer: {fileID: 0}
+  sideOffset: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
   attackRange: 2
   attackCooldown: 2
   attackStopDuration: 2
-  damage: 1
+  damage: 2
 --- !u!114 &8351868733521863052
 MonoBehaviour:
   m_ObjectHideFlags: 0

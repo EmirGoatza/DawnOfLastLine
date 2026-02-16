@@ -1144,7 +1144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 348186952598200801, guid: 9f73f8881ae935a49963941b60b8488c, type: 3}
       propertyPath: actOnTimer
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1369917650171763986, guid: 9f73f8881ae935a49963941b60b8488c, type: 3}
       propertyPath: m_AnchorMax.y
