@@ -3354,9 +3354,9 @@ MonoBehaviour:
   - {fileID: 1340107509}
   - {fileID: 1585254252}
   player: {fileID: 1664687021}
-  buildingTransform: {fileID: 0}
+  buildingTransform: {fileID: 1721347991}
   activationDistance: 10
-  mainBuilding: {fileID: 0}
+  mainBuilding: {fileID: 1721347989}
   restartDelay: 5
   gameOverUI: {fileID: 1893961663}
   gameOverText: {fileID: 165287594}
@@ -4515,6 +4515,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 8, y: 14, z: 8}
   m_Center: {x: -2, y: 7, z: 0}
+--- !u!4 &1721347991 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 20f6b0317cb397843bbbf781a1be6d1c, type: 3}
+  m_PrefabInstance: {fileID: 1721347986}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1819936621 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2816317974127677211, guid: 61587be752506d64d863df0633a7c563, type: 3}
