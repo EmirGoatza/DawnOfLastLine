@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.Splines;
 using System.Collections.Generic;
 
+
 public class WaveManager : MonoBehaviour
 {
     [System.Serializable]
@@ -14,6 +15,9 @@ public class WaveManager : MonoBehaviour
     }
 
     public int currentWave = 0;
+
+    [Header("Configuration")]
+    [SerializeField] private WaveConfig waveConfig;
 
     [Header("Paramètres d'Attaque")]
     [SerializeField] private List<EnemyGroup> groupsInWave;
@@ -32,21 +36,26 @@ public class WaveManager : MonoBehaviour
     public void StartWave(int waveNumber)
     {
         enemiesSpawnedThisWave = 0;
-
+        this.currentWave = waveNumber;
         StartCoroutine(SpawnWaveRoutine(waveNumber));
     }
 
     IEnumerator SpawnWaveRoutine(int waveNumber)
     {
+        int extraEnemies = waveConfig.GetExtraEnemies(waveNumber);
+
         foreach (EnemyGroup group in groupsInWave)
         {
-            for (int i = 0; i < group.count; i++)
+            // Récupération du nombre total d'ennemis à spawn pour ce groupe
+            int finalCount = group.count + extraEnemies;
+
+            for (int i = 0; i < finalCount; i++)
             {
-                SpawnEnemy(i, group.count, waveNumber);
+                SpawnEnemy(i, finalCount, waveNumber);
                 enemiesSpawnedThisWave++;
             }
 
-            yield return new WaitForSeconds(group.delayAfter);
+            yield return new WaitForSeconds(waveConfig.GetScaledDelay(group.delayAfter, waveNumber));
         }
     }
 
