@@ -35,10 +35,10 @@ public class DamageHandler : MonoBehaviour
     
     public void ActivateHitbox(int damage)
     {
-        Debug.Log($"[ACTIVATE] ActivateHitbox called. Clearing list. Previous count: {hitEnemies.Count}");
+        // Debug.Log($"[ACTIVATE] ActivateHitbox called. Clearing list. Previous count: {hitEnemies.Count}");
         damageAmount = damage;
         hitEnemies.Clear();
-        Debug.Log($"[ACTIVATE] List cleared. New count: {hitEnemies.Count}");
+        // Debug.Log($"[ACTIVATE] List cleared. New count: {hitEnemies.Count}");
 
         if (myCollider != null)
         {

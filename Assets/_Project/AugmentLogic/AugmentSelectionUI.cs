@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class AugmentSelectionUI : MonoBehaviour
 {
     [Header("Setup")]
     [SerializeField] private RectTransform augmentPanel;
+    [SerializeField] private CanvasGroup canvasGroup;
     private List<GameObject> cardPrefabs = new List<GameObject>(); // remplie automatiquement à partir du dossier "Resources/AugmentCards"
     [SerializeField] private int numberOfCardsToSpawn = 3;
     [SerializeField] private GameObject player;
@@ -16,6 +18,11 @@ public class AugmentSelectionUI : MonoBehaviour
     private int currentIndex = 0;
     private float lastInputTime;
     private bool isActive = false;
+
+
+    [Header("FadeIn/FadeOut")]
+    [SerializeField] private float fadeInDuration = 3f;
+    [SerializeField] private float fadeOutDuration = 1.5f;
 
     [Header("Debug")]
     [SerializeField] private bool forceFirstCard = false;
@@ -59,15 +66,57 @@ public class AugmentSelectionUI : MonoBehaviour
         isActive = true;
         currentIndex = 0;
         HighlightCurrent();
-        Time.timeScale = 0f;
+
+        // On lance le fondu
+        StartCoroutine(FadeIn());
     }
 
     public void Hide()
     {
         isActive = false;
-        gameObject.SetActive(false);
-        Time.timeScale = 1f;
+        StartCoroutine(FadeOut());
     }
+
+    private IEnumerator FadeIn()
+    {
+        float elapsed = 0f;
+        canvasGroup.alpha = 0f;
+        canvasGroup.interactable = false;
+
+        while (elapsed < fadeInDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            canvasGroup.alpha = Mathf.Clamp01(elapsed / fadeInDuration);
+            Time.timeScale = 1f - canvasGroup.alpha;
+            yield return null;
+        }
+
+        canvasGroup.alpha = 1f;
+        canvasGroup.interactable = true;
+        Time.timeScale = 0f;
+    }
+
+    private IEnumerator FadeOut()
+    {
+        float elapsed = 0f;
+        canvasGroup.alpha = 1f;
+        canvasGroup.interactable = false;
+
+        while (elapsed < fadeOutDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            canvasGroup.alpha = 1f - Mathf.Clamp01(elapsed / fadeOutDuration);
+            Time.timeScale = Mathf.Clamp01(elapsed / fadeOutDuration);
+
+            yield return null;
+        }
+
+        canvasGroup.alpha = 0f;
+        Time.timeScale = 1f;
+
+        gameObject.SetActive(false);
+    }
+
 
     private void GenerateCards()
     {
