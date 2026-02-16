@@ -215,7 +215,7 @@ MonoBehaviour:
   numberOfCardsToSpawn: 3
   player: {fileID: 1664687018}
   inputCooldown: 0
-  forceFirstCard: 1
+  forceFirstCard: 0
   forcedCardName: CardOmnivamp
 --- !u!114 &194415
 MonoBehaviour:
