@@ -1162,6 +1162,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6616982141859131882, guid: 9f73f8881ae935a49963941b60b8488c, type: 3}
+      propertyPath: m_TagString
+      value: Building
+      objectReference: {fileID: 0}
     - target: {fileID: 8044645818953277044, guid: 9f73f8881ae935a49963941b60b8488c, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.76515
@@ -1536,6 +1540,10 @@ PrefabInstance:
     - target: {fileID: 6616982141859131882, guid: 9f73f8881ae935a49963941b60b8488c, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616982141859131882, guid: 9f73f8881ae935a49963941b60b8488c, type: 3}
+      propertyPath: m_TagString
+      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 8044645818953277044, guid: 9f73f8881ae935a49963941b60b8488c, type: 3}
       propertyPath: m_LocalScale.x
