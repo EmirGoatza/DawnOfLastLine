@@ -61,3 +61,12 @@ Survivre le plus longtemps possible en combinant :
 - Une maîtrise du combat en temps réel
 
 Le jeu cherche à créer un équilibre entre planification stratégique et action directe sur le terrain.
+
+## Video PROTO
+
+https://github.com/user-attachments/assets/95b2a928-7746-4b9d-95df-698f160374d4
+
+
+
+
+
